@@ -7,7 +7,7 @@ Track the most common words in particular Subreddits.
 - Rabbit or some other queue tech.
 - Kubernetes, multiple consumers.
 - Redis
-- Spring-boot
+- Spring-boot ✅
 - Helm charts (Maybe)
 - Spring-boot actuator
 - Vault (Secret Management)
