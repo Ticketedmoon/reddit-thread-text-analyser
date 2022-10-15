@@ -5,11 +5,11 @@ Track the most common words in particular Subreddits.
 
 ### Tech
 - Rabbit or some other queue tech.
-- kubernetes, multiple consumers.
+- Kubernetes, multiple consumers.
 - Redis
-- springboot, junit5
+- Spring-boot
 - Helm charts (Maybe)
-- spring-boot actuator
+- Spring-boot actuator
 - New Relic or other monitoring tools.
 - Docker.
 
