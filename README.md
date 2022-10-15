@@ -10,8 +10,10 @@ Track the most common words in particular Subreddits.
 - Spring-boot
 - Helm charts (Maybe)
 - Spring-boot actuator
+- Vault (Secret Management)
 - New Relic or other monitoring tools.
 - Docker.
+- AWS
 
 ### Arch:
 
