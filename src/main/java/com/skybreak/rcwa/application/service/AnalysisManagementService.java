@@ -1,4 +1,4 @@
-package com.skybreak.rcwa.service;
+package com.skybreak.rcwa.application.service;
 
 import com.skybreak.rcwa.domain.event.TextPayloadEvent;
 import com.skybreak.rcwa.domain.event.TextPayloadEventType;

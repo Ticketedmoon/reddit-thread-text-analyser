@@ -1,6 +1,6 @@
-package com.skybreak.rcwa.controller;
+package com.skybreak.rcwa.application.controller;
 
-import com.skybreak.rcwa.service.AnalysisManagementService;
+import com.skybreak.rcwa.application.service.AnalysisManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AnalysisManagementController {
 
-    private static final String JOB_STARTED_MESSAGE = "Word Analysis job started for subreddit [%s] - scanning the title text and comment text from the top [%d] posts";
+    private static final String JOB_STARTED_MESSAGE = "Word Analysis job started for subreddit [%s] - scanning " +
+            "the title text and comment text from the top [%d] posts";
 
     private final AnalysisManagementService analysisManagementService;
 

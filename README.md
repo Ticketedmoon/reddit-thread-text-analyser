@@ -30,3 +30,13 @@ Consumer(s):
 - Increment each word's count in Redis.  
 **Note:** Ensure operations are atomic/no sync issues across pods.  
 **Note:** Removal of misspelled words and prepositions is advised.
+
+### Local Development
+Access via `localhost:15672`
+
+#### Commands:
+
+Start RabbitMQ with Docker:
+```
+docker compose up
+```
