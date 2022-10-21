@@ -1,3 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: reddit-community-word-analyser
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: XXX
+    password: XXX
+
 api:
   reddit:
     app_name: "###"
