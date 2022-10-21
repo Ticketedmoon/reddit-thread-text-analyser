@@ -12,8 +12,11 @@ spring:
 
 api:
   reddit:
-    app_name: "###"
-    author: "###"
-    version: "###"
-    client_id: "###"
-    client_secret: "###"
+    app_name: "community-word-analyser"
+    author: "Ticketedmoon"
+    version: "1.0.0"
+    client_id: "XXX"
+    client_secret: "XXX"
+
+queue:
+  name: reddit_user_text_queue
