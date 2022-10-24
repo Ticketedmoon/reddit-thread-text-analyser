@@ -5,15 +5,15 @@ Track the most common words in particular Subreddits.
 
 ### Tech
 - Rabbit or some other queue tech. ✅
-- Kubernetes, multiple consumers.
-- Redis
+- Kubernetes, multiple consumers (pods).
+- AWS DynamoDB 
 - Spring-boot ✅
 - Helm charts (Maybe)
 - Spring-boot actuator
 - Vault (Secret Management)
 - New Relic or other monitoring tools.
 - Docker.
-- AWS
+- AWS (S3/EC2/ELB)
 
 ### Arch:
 
@@ -27,7 +27,7 @@ Producer:
 Consumer(s):
 - Extract data from payload of event
 - Split post based on spaces
-- Increment each word's count in Redis.  
+- Increment each word's count in DynamoDB.
 **Note:** Ensure operations are atomic/no sync issues across pods.  
 **Note:** Removal of misspelled words and prepositions is advised.
 
