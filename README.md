@@ -4,7 +4,7 @@ Track the most common words in particular Subreddits.
  - Analyse all posts and comments from today back to a particular time period.
 
 ### Tech
-- Rabbit or some other queue tech.
+- Rabbit or some other queue tech. ✅
 - Kubernetes, multiple consumers.
 - Redis
 - Spring-boot ✅
