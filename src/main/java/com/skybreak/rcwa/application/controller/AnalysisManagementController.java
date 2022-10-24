@@ -24,5 +24,4 @@ public class AnalysisManagementController {
         analysisManagementService.startJob(subreddit, totalPosts);
         return ResponseEntity.ok().body(String.format(JOB_STARTED_MESSAGE, subreddit, totalPosts));
     }
-
 }

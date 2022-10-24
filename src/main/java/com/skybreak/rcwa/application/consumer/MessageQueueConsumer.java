@@ -10,9 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageQueueConsumer {
 
+    int count = 0;
+
     @RabbitListener(queues = {"${queue.name}"})
     public void receive(@Payload TextPayloadEvent event) {
-        log.info("Message: {}", event.getPayload());
+        count++;
+        log.info("{}-{}: {}", event.getType(), count, event.getPayload());
     }
-
 }
