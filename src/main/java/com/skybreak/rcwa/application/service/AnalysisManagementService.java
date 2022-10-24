@@ -2,11 +2,13 @@ package com.skybreak.rcwa.application.service;
 
 import com.skybreak.rcwa.domain.event.TextPayloadEvent;
 import com.skybreak.rcwa.domain.event.TextPayloadEventType;
+import lombok.RequiredArgsConstructor;
 import masecla.reddit4j.client.Reddit4J;
 import masecla.reddit4j.client.UserAgentBuilder;
 import masecla.reddit4j.exceptions.AuthenticationException;
 import masecla.reddit4j.objects.RedditPost;
 import masecla.reddit4j.objects.Sorting;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AnalysisManagementService {
 
     @Value("${api.reddit.app_name}")
@@ -26,6 +29,10 @@ public class AnalysisManagementService {
     private String clientId;
     @Value("${api.reddit.client_secret}")
     private String clientSecret;
+    @Value("${queue.name}")
+    private String queueName;
+
+    private final RabbitTemplate rabbitTemplate;
 
     /**
      * Start the text analysis job.
@@ -52,19 +59,19 @@ public class AnalysisManagementService {
     private void startTextExtraction(String subreddit, Reddit4J client, List<RedditPost> posts)
             throws IOException, InterruptedException, AuthenticationException {
         for (RedditPost post : posts) {
-            TextPayloadEvent postTextEvent = TextPayloadEvent.builder()
-                    .type(TextPayloadEventType.POST)
-                    .payload(post.getTitle())
-                    .build();
+            sendPostPayloadToQueue(TextPayloadEventType.POST, String.format("%s %s", post.getTitle(), post.getSelftext()));
             client.getCommentsForPost(subreddit, post.getId())
                     .submit()
-                    .forEach(comment -> {
-                        TextPayloadEvent commentTextEvent = TextPayloadEvent.builder()
-                                .type(TextPayloadEventType.COMMENT)
-                                .payload(comment.getBody())
-                                .build();
-                    });
+                    .forEach(comment -> sendPostPayloadToQueue(TextPayloadEventType.COMMENT, comment.getBody()));
         }
+    }
+
+    private void sendPostPayloadToQueue(TextPayloadEventType messageType, String data) {
+        TextPayloadEvent postTextEvent = TextPayloadEvent.builder()
+                .type(messageType)
+                .payload(data)
+                .build();
+        rabbitTemplate.convertAndSend(queueName, postTextEvent);
     }
 
     private Reddit4J getRedditClient() {
