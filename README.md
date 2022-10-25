@@ -1,3 +1,5 @@
+## RCWA - Reddit Community Word Analyser
+
 ### Description
 Track the most common words in particular Subreddits.
  - Initially start with the ability to hook into 1 subreddit.

@@ -11,3 +11,13 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+  dynamodb-local:
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-rcwa
+    hostname: dynamodb
+    restart: always
+    volumes:
+      - "./docker/dynamodb:/home/dynamodblocal/data"
+    ports:
+      - "8000:8000"
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data"
