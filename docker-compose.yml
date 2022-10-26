@@ -16,6 +16,7 @@ services:
     container_name: dynamodb-rcwa
     hostname: dynamodb
     restart: always
+    user: root
     volumes:
       - "./docker/dynamodb:/home/dynamodblocal/data"
     ports:

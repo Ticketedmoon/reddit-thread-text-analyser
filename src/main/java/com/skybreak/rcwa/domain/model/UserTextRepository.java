@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 @EnableScan
-public interface UserTextRepository extends CrudRepository<UserThreadText, String> {
-    Optional<UserThreadText> findById(String id);
+public interface UserTextRepository extends CrudRepository<UserThreadTextItem, String> {
+    Optional<UserThreadTextItem> findById(String id);
 }
