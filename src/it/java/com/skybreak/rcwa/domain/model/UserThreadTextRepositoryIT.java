@@ -1,13 +1,12 @@
-package com.skybreak.rcwa;
+package com.skybreak.rcwa.domain.model;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
+import com.skybreak.rcwa.Application;
 import com.skybreak.rcwa.domain.event.TextPayloadEventType;
-import com.skybreak.rcwa.domain.model.UserTextRepository;
-import com.skybreak.rcwa.domain.model.UserThreadTextItem;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +28,7 @@ import java.util.UUID;
 		"amazon.dynamodb.endpoint=http://localhost:8000/",
 		"amazon.aws.accesskey=XXX",
 		"amazon.aws.secretkey=XXX" })
-class UserTextRepositoryIT {
+class UserThreadTextRepositoryIT {
 
 	private DynamoDBMapper dynamoDBMapper;
 
@@ -37,7 +36,7 @@ class UserTextRepositoryIT {
 	private AmazonDynamoDB amazonDynamoDB;
 
 	@Autowired
-	private UserTextRepository userTextRepository;
+	private UserThreadTextRepository userThreadTextRepository;
 
 	@BeforeEach
 	void setup() {
@@ -52,7 +51,7 @@ class UserTextRepositoryIT {
 					this.getClass().getSimpleName());
 		}
 		amazonDynamoDB.createTable(tableRequest);
-		dynamoDBMapper.batchDelete(userTextRepository.findAll());
+		dynamoDBMapper.batchDelete(userThreadTextRepository.findAll());
 	}
 
 	@Test
@@ -64,8 +63,8 @@ class UserTextRepositoryIT {
 				.type(TextPayloadEventType.POST)
 				.data(data)
 				.build();
-		userTextRepository.save(userThreadTextItem);
-		List<UserThreadTextItem> result = (List<UserThreadTextItem>) userTextRepository.findAll();
+		userThreadTextRepository.save(userThreadTextItem);
+		List<UserThreadTextItem> result = (List<UserThreadTextItem>) userThreadTextRepository.findAll();
 
 		Assertions.assertFalse(result.isEmpty());
 		Assertions.assertEquals(id, result.get(0).getId());
