@@ -16,8 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.UUID;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Slf4j
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserThreadTextRepositoryIT extends AbstractTestContainer {
 
 	private static final String TEST_TABLE_SUFFIX = "_test";
@@ -27,7 +27,7 @@ class UserThreadTextRepositoryIT extends AbstractTestContainer {
 
 	@BeforeEach
 	void setup() {
-		AmazonDynamoDB client = dynamoDbContainer.getClient();
+		AmazonDynamoDB client = getDynamoClient();
 		DynamoDBMapper dynamoDBMapper = new DynamoDBMapper(client);
 		CreateTableRequest tableRequest = dynamoDBMapper.generateCreateTableRequest(UserThreadTextItem.class);
 		tableRequest.setTableName(tableRequest.getTableName() + TEST_TABLE_SUFFIX);
@@ -38,7 +38,8 @@ class UserThreadTextRepositoryIT extends AbstractTestContainer {
 			log.info("Dynamo table with name {} not found - recreating for {}", tableRequest.getTableName(), getClass().getSimpleName());
 		}
 		client.createTable(tableRequest);
-		dynamoDBMapper.batchDelete(userThreadTextRepository.findAll());
+		Iterable<UserThreadTextItem> allRecords = userThreadTextRepository.findAll();
+		dynamoDBMapper.batchDelete(allRecords);
 	}
 
 	@Test

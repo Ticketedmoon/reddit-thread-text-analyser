@@ -25,6 +25,7 @@
         <aws-java-sdk.version>1.12.328</aws-java-sdk.version>
         <spring-data-dynamodb.version>5.1.0</spring-data-dynamodb.version>
         <testcontainers.version>1.17.5</testcontainers.version>
+        <junit-jupiter.version>5.6.3</junit-jupiter.version>
     </properties>
 
     <repositories>
@@ -103,6 +104,13 @@
         <dependency>
             <groupId>org.springframework.amqp</groupId>
             <artifactId>spring-rabbit-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
 
