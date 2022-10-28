@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+amazon:
+  dynamodb:
+    endpoint: http://host.docker.internal:8000
+  aws:
+    accesskey: XXX
+    secretkey: XXX

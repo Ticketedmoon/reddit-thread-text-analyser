@@ -22,8 +22,9 @@
         <lombok-maven-plugin.version>1.18.20.0</lombok-maven-plugin.version>
         <build-helper-maven-plugin.version>1.5</build-helper-maven-plugin.version>
         <maven-failsafe-plugin.version>2.15</maven-failsafe-plugin.version>
-        <aws-java-sdk-dynamodb.version>1.11.64</aws-java-sdk-dynamodb.version>
+        <aws-java-sdk.version>1.12.328</aws-java-sdk.version>
         <spring-data-dynamodb.version>5.1.0</spring-data-dynamodb.version>
+        <testcontainers.version>1.17.5</testcontainers.version>
     </properties>
 
     <repositories>
@@ -39,6 +40,13 @@
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-releasetrain</artifactId>
                 <version>Lovelace-SR16</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -77,7 +85,7 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-dynamodb</artifactId>
-            <version>${aws-java-sdk-dynamodb.version}</version>
+            <version>${aws-java-sdk.version}</version>
         </dependency>
 
         <dependency>
@@ -95,6 +103,18 @@
         <dependency>
             <groupId>org.springframework.amqp</groupId>
             <artifactId>spring-rabbit-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>dynalite</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

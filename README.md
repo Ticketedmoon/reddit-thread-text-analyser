@@ -7,12 +7,13 @@ Track the most common words in particular Subreddits.
 
 ### Tech
 - Rabbit or some other queue tech. ✅
-- Kubernetes, multiple consumers (pods).
-- AWS DynamoDB 
+- Kubernetes, multiple pod consumers (Probably overkill but good as a learning outcome).
+- AWS DynamoDB ✅ 
 - Spring-boot ✅
-- Helm charts (Maybe)
+- Helm charts (Maybe for a learning outcome)
 - Spring-boot actuator
 - Vault (Secret Management)
+- Test Containers ✅
 - New Relic or other monitoring tools.
 - Docker.
 - AWS (S3/EC2/ELB)
