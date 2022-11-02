@@ -13,7 +13,7 @@ Track the most common words in particular Subreddits.
 - Helm charts (Maybe for a learning outcome)
 - Spring-boot actuator
 - Vault (Secret Management)
-- Test Containers ✅
+- Test Containers ❓ (Maybe. There was some difficulty with `dynalite` containers)
 - New Relic or other monitoring tools.
 - Docker.
 - AWS (S3/EC2/ELB)
