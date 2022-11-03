@@ -29,10 +29,10 @@ public class LexicalExtractionService {
         Map<String, Integer> wordToCountMap = getWordToCountMap(textPayloadEvent);
         wordToCountMap.forEach((word, count) -> {
             UserThreadTextItem threadTextItem = UserThreadTextItem.builder()
-                    .textItem(word)
-                    .type(textPayloadEvent.getType())
-                    .count(count)
-                    .build();
+                .textItem(word)
+                .type(textPayloadEvent.getType())
+                .count(count)
+                .build();
             repository.save(threadTextItem);
         });
     }
@@ -41,7 +41,9 @@ public class LexicalExtractionService {
         String cleanedPayload = textPayloadEvent.getPayload().replaceAll(PUNCTUATION_REMOVAL_REGEX, "");
         List<String> words = Arrays.asList(cleanedPayload.split(" "));
         Map<String, Integer> wordToCountFromPayload = new HashMap<>();
-        words.forEach(word -> wordToCountFromPayload.put(word, wordToCountFromPayload.getOrDefault(word, 0)));
+        words.stream()
+            .map(String::toLowerCase)
+            .forEach(word -> wordToCountFromPayload.put(word, wordToCountFromPayload.getOrDefault(word, 0) + 1));
         return wordToCountFromPayload;
     }
 
