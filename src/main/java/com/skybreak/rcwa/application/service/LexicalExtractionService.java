@@ -6,19 +6,32 @@ import com.skybreak.rcwa.infrastructure.persistence.dao.UserThreadTextItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class LexicalExtractionService {
 
+    private static final String STOP_WORD_FILE_PATH = "src/main/resources/data/english_stop_words.txt";
     private static final String PUNCTUATION_REMOVAL_REGEX = "\\p{P}";
 
+    private List<String> stopWords;
+
     private final UserThreadTextRepository repository;
+
+    @PostConstruct
+    public void initialise() throws IOException {
+        stopWords = Files.readAllLines(Paths.get(STOP_WORD_FILE_PATH));
+    }
 
     /**
      * Split the payload into a list of words and save each word in the database.
@@ -33,19 +46,25 @@ public class LexicalExtractionService {
     }
 
     private Map<String, Integer> getWordToCountMap(TextPayloadEvent textPayloadEvent) {
-        String cleanedPayload = textPayloadEvent.getPayload().replaceAll(PUNCTUATION_REMOVAL_REGEX, "");
-        List<String> words = Arrays.asList(cleanedPayload.split(" "));
+        List<String> words = convertPayloadTextToSanitisedWords(textPayloadEvent);
         Map<String, Integer> wordToCountFromPayload = new HashMap<>();
-        words.stream()
-            .map(String::toLowerCase)
-            .forEach(word -> wordToCountFromPayload.put(word, wordToCountFromPayload.getOrDefault(word, 0) + 1));
+        words.forEach(word -> wordToCountFromPayload.put(word, wordToCountFromPayload.getOrDefault(word, 0) + 1));
         return wordToCountFromPayload;
+    }
+
+    private List<String> convertPayloadTextToSanitisedWords(TextPayloadEvent textPayloadEvent) {
+        String cleanedPayload = textPayloadEvent.getPayload().replaceAll(PUNCTUATION_REMOVAL_REGEX, "");
+        List<String> words = Arrays.stream(cleanedPayload.split(" "))
+            .map(String::toLowerCase)
+            .collect(Collectors.toList());
+        words.removeAll(stopWords);
+        return words;
     }
 
     private List<UserThreadTextItem> extractThreadTextItems(TextPayloadEvent textPayloadEvent, Map<String, Integer> wordToCountMap) {
         List<UserThreadTextItem> threadTextItems = new ArrayList<>();
         wordToCountMap.forEach((word, count) -> {
-            UserThreadTextItem threadTextItem = repository.findByTextItem(word);
+            UserThreadTextItem threadTextItem = repository.findByTypeAndTextItem(textPayloadEvent.getType(), word);
             if (threadTextItem != null) {
                 threadTextItem.setCount(threadTextItem.getCount() + count);
             } else {
