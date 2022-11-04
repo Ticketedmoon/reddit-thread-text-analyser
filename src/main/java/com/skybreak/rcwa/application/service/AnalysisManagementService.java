@@ -73,6 +73,7 @@ public class AnalysisManagementService {
                         sendCommentRepliesToQueue(comment);
                     });
         }
+        sendPayloadToQueue(TextPayloadEventType.COMPLETION, subreddit);
     }
 
     private void sendCommentRepliesToQueue(RedditComment comment) {

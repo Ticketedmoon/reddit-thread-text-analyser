@@ -24,7 +24,7 @@ public class LexicalExtractionService {
 
     private static final String STOP_WORD_FILE_PATH = "src/main/resources/data/english_stop_words.txt";
     private static final String WHITESPACE_MATCH_REGEX = "\\s+";
-    private static final String PUNCTUATION_REMOVAL_REGEX = "\\p{P}";
+    private static final String PUNCTUATION_REMOVAL_REGEX = "[^a-zA-Z0-9\\s+]";
 
     private List<String> stopWords;
 
@@ -56,12 +56,13 @@ public class LexicalExtractionService {
 
     private List<String> convertPayloadTextToSanitisedWords(TextPayloadEvent textPayloadEvent) {
         String cleanedPayload = textPayloadEvent.getPayload()
-            .replaceAll(PUNCTUATION_REMOVAL_REGEX, "")
-            .replaceAll("\n", " ");
+            .replaceAll("\n", " ")
+            .replaceAll(PUNCTUATION_REMOVAL_REGEX, "");
         List<String> words = Arrays.stream(cleanedPayload.split(WHITESPACE_MATCH_REGEX))
             .map(String::toLowerCase)
             .collect(Collectors.toList());
         words.removeAll(stopWords);
+        words.removeIf(item -> item.length() < 3);
         return words;
     }
 
