@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @EnableScan
-public interface UserThreadTextRepository extends CrudRepository<UserThreadTextItem, String> { }
+public interface UserThreadTextRepository extends CrudRepository<UserThreadTextItem, String> {
+    UserThreadTextItem findByTextItem(String textItem);
+}

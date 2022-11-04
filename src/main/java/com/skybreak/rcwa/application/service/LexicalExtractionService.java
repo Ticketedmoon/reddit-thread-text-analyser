@@ -6,6 +6,7 @@ import com.skybreak.rcwa.infrastructure.persistence.dao.UserThreadTextItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -27,14 +28,8 @@ public class LexicalExtractionService {
      */
     public void savePayload(TextPayloadEvent textPayloadEvent) {
         Map<String, Integer> wordToCountMap = getWordToCountMap(textPayloadEvent);
-        wordToCountMap.forEach((word, count) -> {
-            UserThreadTextItem threadTextItem = UserThreadTextItem.builder()
-                .textItem(word)
-                .type(textPayloadEvent.getType())
-                .count(count)
-                .build();
-            repository.save(threadTextItem);
-        });
+        List<UserThreadTextItem> threadTextItems = extractThreadTextItems(textPayloadEvent, wordToCountMap);
+        repository.saveAll(threadTextItems);
     }
 
     private Map<String, Integer> getWordToCountMap(TextPayloadEvent textPayloadEvent) {
@@ -47,4 +42,21 @@ public class LexicalExtractionService {
         return wordToCountFromPayload;
     }
 
+    private List<UserThreadTextItem> extractThreadTextItems(TextPayloadEvent textPayloadEvent, Map<String, Integer> wordToCountMap) {
+        List<UserThreadTextItem> threadTextItems = new ArrayList<>();
+        wordToCountMap.forEach((word, count) -> {
+            UserThreadTextItem threadTextItem = repository.findByTextItem(word);
+            if (threadTextItem != null) {
+                threadTextItem.setCount(threadTextItem.getCount() + count);
+            } else {
+                threadTextItem = UserThreadTextItem.builder()
+                    .textItem(word)
+                    .type(textPayloadEvent.getType())
+                    .count(count)
+                    .build();
+            }
+            threadTextItems.add(threadTextItem);
+        });
+        return threadTextItems;
+    }
 }
