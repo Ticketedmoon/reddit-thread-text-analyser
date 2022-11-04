@@ -1,6 +1,7 @@
 package com.skybreak.rcwa.application.service;
 
 import com.skybreak.rcwa.domain.event.TextPayloadEvent;
+import com.skybreak.rcwa.domain.event.TextPayloadEventType;
 import com.skybreak.rcwa.infrastructure.persistence.UserThreadTextRepository;
 import com.skybreak.rcwa.infrastructure.persistence.dao.UserThreadTextItem;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class LexicalExtractionService {
 
     private static final String STOP_WORD_FILE_PATH = "src/main/resources/data/english_stop_words.txt";
+    private static final String WHITESPACE_MATCH_REGEX = "\\s+";
     private static final String PUNCTUATION_REMOVAL_REGEX = "\\p{P}";
 
     private List<String> stopWords;
@@ -41,7 +43,7 @@ public class LexicalExtractionService {
      */
     public void savePayload(TextPayloadEvent textPayloadEvent) {
         Map<String, Integer> wordToCountMap = getWordToCountMap(textPayloadEvent);
-        List<UserThreadTextItem> threadTextItems = extractThreadTextItems(textPayloadEvent, wordToCountMap);
+        List<UserThreadTextItem> threadTextItems = extractThreadTextItems(textPayloadEvent.getType(), wordToCountMap);
         repository.saveAll(threadTextItems);
     }
 
@@ -53,24 +55,26 @@ public class LexicalExtractionService {
     }
 
     private List<String> convertPayloadTextToSanitisedWords(TextPayloadEvent textPayloadEvent) {
-        String cleanedPayload = textPayloadEvent.getPayload().replaceAll(PUNCTUATION_REMOVAL_REGEX, "");
-        List<String> words = Arrays.stream(cleanedPayload.split(" "))
+        String cleanedPayload = textPayloadEvent.getPayload()
+            .replaceAll(PUNCTUATION_REMOVAL_REGEX, "")
+            .replaceAll("\n", " ");
+        List<String> words = Arrays.stream(cleanedPayload.split(WHITESPACE_MATCH_REGEX))
             .map(String::toLowerCase)
             .collect(Collectors.toList());
         words.removeAll(stopWords);
         return words;
     }
 
-    private List<UserThreadTextItem> extractThreadTextItems(TextPayloadEvent textPayloadEvent, Map<String, Integer> wordToCountMap) {
+    private List<UserThreadTextItem> extractThreadTextItems(TextPayloadEventType eventType, Map<String, Integer> wordToCountMap) {
         List<UserThreadTextItem> threadTextItems = new ArrayList<>();
         wordToCountMap.forEach((word, count) -> {
-            UserThreadTextItem threadTextItem = repository.findByTypeAndTextItem(textPayloadEvent.getType(), word);
+            UserThreadTextItem threadTextItem = repository.findByTypeAndTextItem(eventType, word);
             if (threadTextItem != null) {
                 threadTextItem.setCount(threadTextItem.getCount() + count);
             } else {
                 threadTextItem = UserThreadTextItem.builder()
                     .textItem(word)
-                    .type(textPayloadEvent.getType())
+                    .type(eventType)
                     .count(count)
                     .build();
             }
