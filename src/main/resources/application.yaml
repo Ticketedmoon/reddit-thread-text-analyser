@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: reddit-community-word-analyser
+  banner:
+    location: "classpath:/other/banner.txt"
   rabbitmq:
     host: localhost
     port: 5672
