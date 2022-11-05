@@ -18,10 +18,11 @@ public class MessageQueueConsumer {
 
     @RabbitListener(queues = {"${queue.name}"})
     public void receive(@Payload TextPayloadEvent event) {
-        log.info("{}: {}", event.getType(), event.getPayload());
-        textStorageService.savePayload(event);
         if (event.getType() == TextPayloadEventType.COMPLETION) {
             textStorageService.completeAnalysisJob(event.getPayload());
+        } else {
+            log.info("Consuming message of [type, payload]: [{}, {}]", event.getType(), event.getPayload());
+            textStorageService.savePayload(event);
         }
     }
 }
