@@ -15,8 +15,8 @@ Track the most common words in particular Subreddits.
 - Vault (Secret Management)
 - Test Containers ❓ (Maybe. There was some difficulty with `dynalite` containers)
 - New Relic or other monitoring tools.
-- Docker.
-- AWS (S3/EC2/ELB)
+- Docker. ✅
+- CI/CD
 
 ### Arch:
 
