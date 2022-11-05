@@ -1,6 +1,6 @@
 package com.skybreak.rcwa.application.service;
 
-import com.skybreak.rcwa.AbstractTestContainer;
+import com.skybreak.rcwa.AbstractIntegrationTestContainer;
 import com.skybreak.rcwa.domain.event.TextPayloadEvent;
 import com.skybreak.rcwa.domain.event.TextPayloadEventType;
 import com.skybreak.rcwa.infrastructure.persistence.UserThreadTextRepository;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class TextStorageServiceIT extends AbstractTestContainer {
+class TextStorageServiceIT extends AbstractIntegrationTestContainer {
 
     @Autowired
     private UserThreadTextRepository repository;

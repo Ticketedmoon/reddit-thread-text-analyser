@@ -1,6 +1,6 @@
 package com.skybreak.rcwa.infrastructure.persistence;
 
-import com.skybreak.rcwa.AbstractTestContainer;
+import com.skybreak.rcwa.AbstractIntegrationTestContainer;
 import com.skybreak.rcwa.domain.event.TextPayloadEventType;
 import com.skybreak.rcwa.infrastructure.persistence.dao.UserThreadTextItem;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class UserThreadTextRepositoryIT extends AbstractTestContainer {
+class UserThreadTextRepositoryIT extends AbstractIntegrationTestContainer {
 
 	@Autowired
 	private UserThreadTextRepository userThreadTextRepository;

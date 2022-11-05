@@ -8,5 +8,5 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @TestPropertySource(locations = "classpath:application-test.yaml")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @ExtendWith(SpringExtension.class)
-public abstract class AbstractTestContainer {
+public abstract class AbstractIntegrationTestContainer {
 }

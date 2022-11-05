@@ -88,11 +88,11 @@ public class DataExtractionProducer {
 
     private void sendPayloadToQueue(TextPayloadEventType messageType, String data) {
         if (data != null) {
-            TextPayloadEvent postTextEvent = TextPayloadEvent.builder()
+            TextPayloadEvent event = TextPayloadEvent.builder()
                 .type(messageType)
                 .payload(data)
                 .build();
-            rabbitTemplate.convertAndSend(queueName, postTextEvent);
+            rabbitTemplate.convertAndSend(queueName, event);
         }
     }
 

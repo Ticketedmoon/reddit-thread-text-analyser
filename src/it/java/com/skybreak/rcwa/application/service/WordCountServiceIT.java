@@ -1,6 +1,6 @@
 package com.skybreak.rcwa.application.service;
 
-import com.skybreak.rcwa.AbstractTestContainer;
+import com.skybreak.rcwa.AbstractIntegrationTestContainer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Map;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class WordCountServiceIT extends AbstractTestContainer {
+class WordCountServiceIT extends AbstractIntegrationTestContainer {
 
     @Autowired
     private WordCountService wordCountService;
