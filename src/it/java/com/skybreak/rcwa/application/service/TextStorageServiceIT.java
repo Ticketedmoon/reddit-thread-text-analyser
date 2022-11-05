@@ -18,13 +18,13 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class LexicalExtractionServiceIT extends AbstractTestContainer {
+public class TextStorageServiceIT extends AbstractTestContainer {
 
     @Autowired
     private UserThreadTextRepository repository;
 
     @Autowired
-    private LexicalExtractionService lexicalExtractionService;
+    private TextStorageService textStorageService;
 
     @AfterEach
     void setup() {
@@ -38,7 +38,7 @@ public class LexicalExtractionServiceIT extends AbstractTestContainer {
             .type(TextPayloadEventType.POST)
             .payload(data)
             .build();
-        lexicalExtractionService.savePayload(payloadEvent);
+        textStorageService.savePayload(payloadEvent);
         Iterable<UserThreadTextItem> textItemIterable = repository.findAll();
         Map<String, UserThreadTextItem> textLabelToItem = StreamSupport.stream(textItemIterable.spliterator(), false).toList()
             .stream()
@@ -56,14 +56,14 @@ public class LexicalExtractionServiceIT extends AbstractTestContainer {
             .type(TextPayloadEventType.POST)
             .payload(data)
             .build();
-        lexicalExtractionService.savePayload(payloadEvent);
+        textStorageService.savePayload(payloadEvent);
 
         data = "Hello, World!";
         payloadEvent = TextPayloadEvent.builder()
             .type(TextPayloadEventType.POST)
             .payload(data)
             .build();
-        lexicalExtractionService.savePayload(payloadEvent);
+        textStorageService.savePayload(payloadEvent);
 
         Iterable<UserThreadTextItem> textItemIterable = repository.findAll();
         Map<String, UserThreadTextItem> textLabelToItem = StreamSupport.stream(textItemIterable.spliterator(), false).toList()
@@ -83,14 +83,14 @@ public class LexicalExtractionServiceIT extends AbstractTestContainer {
             .type(TextPayloadEventType.POST)
             .payload(data)
             .build();
-        lexicalExtractionService.savePayload(payloadEvent);
+        textStorageService.savePayload(payloadEvent);
 
         data = "Hello, World!";
         payloadEvent = TextPayloadEvent.builder()
             .type(TextPayloadEventType.COMMENT)
             .payload(data)
             .build();
-        lexicalExtractionService.savePayload(payloadEvent);
+        textStorageService.savePayload(payloadEvent);
 
         Iterable<UserThreadTextItem> textItemIterable = repository.findAll();
         Map<TextPayloadEventType, List<UserThreadTextItem>> textLabelToItem = StreamSupport.stream(textItemIterable.spliterator(), false).toList()
@@ -108,7 +108,7 @@ public class LexicalExtractionServiceIT extends AbstractTestContainer {
             .type(TextPayloadEventType.POST)
             .payload(data)
             .build();
-        lexicalExtractionService.savePayload(payloadEvent);
+        textStorageService.savePayload(payloadEvent);
         Iterable<UserThreadTextItem> textItemIterable = repository.findAll();
         Map<String, UserThreadTextItem> textLabelToItem = StreamSupport.stream(textItemIterable.spliterator(), false).toList()
             .stream()

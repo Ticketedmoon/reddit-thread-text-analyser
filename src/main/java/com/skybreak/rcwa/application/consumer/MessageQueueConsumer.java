@@ -1,6 +1,6 @@
 package com.skybreak.rcwa.application.consumer;
 
-import com.skybreak.rcwa.application.service.LexicalExtractionService;
+import com.skybreak.rcwa.application.service.TextStorageService;
 import com.skybreak.rcwa.domain.event.TextPayloadEvent;
 import com.skybreak.rcwa.domain.event.TextPayloadEventType;
 import lombok.RequiredArgsConstructor;
@@ -14,16 +14,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MessageQueueConsumer {
 
-    private final LexicalExtractionService lexicalExtractionService;
+    private final TextStorageService textStorageService;
 
     @RabbitListener(queues = {"${queue.name}"})
     public void receive(@Payload TextPayloadEvent event) {
         log.info("{}: {}", event.getType(), event.getPayload());
-        lexicalExtractionService.savePayload(event);
-
+        textStorageService.savePayload(event);
         if (event.getType() == TextPayloadEventType.COMPLETION) {
-            log.info("Subreddit [{}] analysis job completed.", event.getPayload());
-            // TODO Do any reporting at this stage...
+            textStorageService.completeAnalysisJob(event.getPayload());
         }
     }
 }

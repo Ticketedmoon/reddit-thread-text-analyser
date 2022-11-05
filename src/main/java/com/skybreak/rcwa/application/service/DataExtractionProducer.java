@@ -20,7 +20,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AnalysisManagementService {
+public class DataExtractionProducer {
 
     @Value("${api.reddit.app_name}")
     private String appName;
@@ -67,7 +67,7 @@ public class AnalysisManagementService {
             client.getCommentsForPost(subreddit, post.getId())
                     .submit()
                     .stream()
-                    .filter(AnalysisManagementService::isValidComment)
+                    .filter(DataExtractionProducer::isValidComment)
                     .forEach(comment -> {
                         sendPayloadToQueue(TextPayloadEventType.COMMENT, comment.getBody());
                         sendCommentRepliesToQueue(comment);
