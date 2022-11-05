@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TextStorageServiceIT extends AbstractTestContainer {
+class TextStorageServiceIT extends AbstractTestContainer {
 
     @Autowired
     private UserThreadTextRepository repository;

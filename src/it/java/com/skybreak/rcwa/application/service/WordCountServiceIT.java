@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Map;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class WordCountServiceIT extends AbstractTestContainer {
+class WordCountServiceIT extends AbstractTestContainer {
 
     @Autowired
     private WordCountService wordCountService;
