@@ -14,11 +14,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <java.version>18</java.version>
-        <maven.compiler.release>18</maven.compiler.release>
+        <java.version>19</java.version>
+        <maven.compiler.release>19</maven.compiler.release>
         <spring-boot.version>2.7.5</spring-boot.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>2.15</maven-failsafe-plugin.version>
+        <maven-failsafe-plugin.version>3.0.0-M7</maven-failsafe-plugin.version>
         <build-helper-maven-plugin.version>1.5</build-helper-maven-plugin.version>
 
         <Reddit4J.version>master-SNAPSHOT</Reddit4J.version>
@@ -187,14 +187,8 @@
                 <version>${maven-failsafe-plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>integration-test</id>
                         <goals>
                             <goal>integration-test</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>verify</id>
-                        <goals>
                             <goal>verify</goal>
                         </goals>
                     </execution>
