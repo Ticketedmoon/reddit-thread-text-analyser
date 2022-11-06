@@ -10,10 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: '19'
+
       - name: Cache Maven packages
         # This action allows caching dependencies and build outputs to improve workflow execution time.
         uses: actions/cache@v1
@@ -21,5 +23,13 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
+      - name: Start containers
+        run: docker-compose -f "docker-compose.yml" up -d --build
+
       - name: Run Tests
         run: mvn -B verify
+
+      - name: Stop containers
+        if: always()
+        run: docker-compose -f "docker-compose.yml" down
