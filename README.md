@@ -6,17 +6,17 @@ Track the most common words in particular Subreddits.
  - Analyse all posts and comments from today back to a particular time period.
 
 ### Tech
-- Rabbit or some other queue tech. ✅
-- Kubernetes, multiple pod consumers (Probably overkill but good as a learning outcome).
+- Rabbit or some other queue tech ✅
+- Kubernetes, multiple pod consumers (Probably overkill but good as a learning outcome) ❓
 - AWS DynamoDB ✅ 
 - Spring-boot ✅
-- Helm charts (Maybe for a learning outcome)
+- Helm charts (Maybe for a learning outcome) ❓
 - Spring-boot actuator ✅
-- Vault (Secret Management)
-- Test Containers ❓ (Maybe. There was some difficulty with `dynalite` containers)
-- New Relic or other monitoring tools.
-- Docker. ✅
-- CI/CD
+- Vault (Secret Management) ❓
+- Test Containers ❓ (Maybe - there was some difficulty with `dynalite` containers)
+- New Relic or other monitoring tools ❓
+- Docker ✅
+- CI/CD ✅
 
 ### Arch:
 
