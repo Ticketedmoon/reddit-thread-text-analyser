@@ -12,6 +12,17 @@ spring:
     username: XXX
     password: XXX
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,mappings,metrics,httptrace
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+
 api:
   reddit:
     app_name: "community-word-analyser"
