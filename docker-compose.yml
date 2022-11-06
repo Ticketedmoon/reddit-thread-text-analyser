@@ -6,6 +6,7 @@ services:
     restart: always
     env_file:
       - .env
+      - .env.template # For CI/CD pipeline
     volumes:
       - ./docker/rabbitmq:/var/lib/rabbitmq
     ports:
