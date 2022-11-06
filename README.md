@@ -35,11 +35,18 @@ Consumer(s):
 **Note:** Removal of misspelled words and prepositions is advised.
 
 ### Local Development
-Access via `localhost:15672`
+Access App via `localhost:8080`
+Access Rabbit via `localhost:15672`
+Access Dynamo via `localhost:8000`
 
 #### Commands:
 
 Start RabbitMQ with Docker:
 ```
 docker compose up
+```
+
+Remove file from remote git history:
+```
+git filter-branch --force --index-filter "git rm --cached --ignore-unmatch {RELATIVE_PATH}" --prune-empty --tag-name-filter cat -- --all
 ```
