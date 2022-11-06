@@ -35,9 +35,9 @@ Consumer(s):
 **Note:** Removal of misspelled words and prepositions is advised.
 
 ### Local Development
-Access App via `localhost:8080`
-Access Rabbit via `localhost:15672`
-Access Dynamo via `localhost:8000`
+Access App via `localhost:8080`  
+Access Rabbit via `localhost:15672`  
+Access Dynamo via `localhost:8000`  
 
 #### Commands:
 
