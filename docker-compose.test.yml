@@ -7,7 +7,7 @@ services:
     volumes:
       - ./docker/rabbitmq:/var/lib/rabbitmq
     environment:
-      RABBITMQ_DEFAULT_VHOST: /
+      - RABBITMQ_DEFAULT_VHOST=/
     ports:
       - "5672:5672"
       - "15672:15672"
