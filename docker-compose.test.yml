@@ -4,8 +4,6 @@ services:
     image: rabbitmq:management
     hostname: rabbitmq
     restart: always
-    env_file:
-      - .env
     volumes:
       - ./docker/rabbitmq:/var/lib/rabbitmq
     ports:
