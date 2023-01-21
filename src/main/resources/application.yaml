@@ -6,11 +6,6 @@ spring:
     name: reddit-community-word-analyser
   banner:
     location: "classpath:/other/banner.txt"
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: XXX
-    password: XXX
 
 management:
   endpoints:
@@ -22,14 +17,6 @@ management:
       show-details: always
       probes:
         enabled: true
-
-api:
-  reddit:
-    app_name: "community-word-analyser"
-    author: "Ticketedmoon"
-    version: "1.0.0"
-    client_id: "XXX"
-    client_secret: "XXX"
 
 queue:
   name: reddit_user_text_queue
