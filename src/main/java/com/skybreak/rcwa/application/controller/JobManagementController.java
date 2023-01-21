@@ -23,7 +23,6 @@ public class JobManagementController {
     private static final String TOTAL_POSTS_VALIDATION_EXCEPTION_MESSAGE = "parameter `totalPosts` must be less than or equal to 100";
     private final DataExtractionProducer dataExtractionProducer;
 
-    // TODO Make me more inline with restful principles (PUT/POST + startJob: true or similar)
     @PostMapping("/start-report")
     public ResponseEntity<String> startReport(@RequestParam String subreddit,
                                               @RequestParam(defaultValue = "100")
