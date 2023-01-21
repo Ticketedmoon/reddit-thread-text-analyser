@@ -1,0 +1,14 @@
+spring:
+  rabbitmq:
+    host: XXX
+    port: 5672
+    username: XXX
+    password: XXX
+
+api:
+  reddit:
+    app_name: "XXX"
+    author: "XXX"
+    version: "XXX0"
+    client_id: "XXX"
+    client_secret: "XXX"
