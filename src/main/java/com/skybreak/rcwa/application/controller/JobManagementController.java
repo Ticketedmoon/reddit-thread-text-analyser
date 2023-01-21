@@ -4,12 +4,13 @@ import com.skybreak.rcwa.application.service.DataExtractionProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Max;
+import java.util.concurrent.CompletableFuture;
 
 @Validated
 @RestController
@@ -23,11 +24,11 @@ public class JobManagementController {
     private final DataExtractionProducer dataExtractionProducer;
 
     // TODO Make me more inline with restful principles (PUT/POST + startJob: true or similar)
-    @GetMapping("/start-report")
+    @PostMapping("/start-report")
     public ResponseEntity<String> startReport(@RequestParam String subreddit,
                                               @RequestParam(defaultValue = "100")
                                               @Max(value = 100, message = TOTAL_POSTS_VALIDATION_EXCEPTION_MESSAGE) int totalPosts) {
-        dataExtractionProducer.startJob(subreddit, totalPosts);
+        CompletableFuture.runAsync(() -> dataExtractionProducer.startJob(subreddit, totalPosts));
         return ResponseEntity.accepted().body(String.format(JOB_STARTED_MESSAGE, subreddit, totalPosts));
     }
 }
