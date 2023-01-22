@@ -19,11 +19,11 @@ import java.util.concurrent.CompletableFuture;
 public class JobManagementController {
 
     private static final String JOB_STARTED_MESSAGE = "Word Analysis job started for subreddit [%s] - scanning " +
-            "the title text and comment text from the top [%d] posts";
+        "the title text and comment text from the top [%d] posts";
     private static final String TOTAL_POSTS_VALIDATION_EXCEPTION_MESSAGE = "parameter `totalPosts` must be less than or equal to 100";
     private final DataExtractionProducer dataExtractionProducer;
 
-    @PostMapping("/start-report")
+    @PostMapping("/job-reports")
     public ResponseEntity<String> startReport(@RequestParam String subreddit,
                                               @RequestParam(defaultValue = "100")
                                               @Max(value = 100, message = TOTAL_POSTS_VALIDATION_EXCEPTION_MESSAGE) int totalPosts) {
