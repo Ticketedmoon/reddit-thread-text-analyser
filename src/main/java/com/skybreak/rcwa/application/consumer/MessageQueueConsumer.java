@@ -19,7 +19,7 @@ public class MessageQueueConsumer {
     @RabbitListener(queues = {"${queue.name}"})
     public void receive(@Payload TextPayloadEvent event) {
         if (event.getType() == TextPayloadEventType.COMPLETION) {
-            textStorageService.completeAnalysisJob(event.getPayload());
+            textStorageService.completeAnalysisJob(event);
         } else {
             log.info("Consuming message of [type, payload]: [{}, {}]", event.getType(), event.getPayload());
             textStorageService.savePayload(event);

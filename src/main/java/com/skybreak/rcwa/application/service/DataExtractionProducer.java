@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -27,42 +28,28 @@ public class DataExtractionProducer {
     private final RabbitTemplate rabbitTemplate;
     private final Reddit4J redditClient;
 
-    /**
-     * Start the text analysis job.
-     * This will scan the top <code>totalPosts</code> total posts from a particular subreddit.
-     * Words will be counted across Post text and comment text.
-     * This will give us an idea the most common words per each subreddit community.
-     *
-     * @param subreddit The subreddit we are analysing.
-     * @param totalPosts The amount of top posts to scan.
-     */
-    public void startJob(String subreddit, int totalPosts) {
-        try {
-            redditClient.userlessConnect();
-            List<RedditPost> posts = redditClient.getSubredditPosts(subreddit, Sorting.TOP)
-                .limit(totalPosts)
-                .time(Time.ALL) // TODO Make this adjustable at the API level
-                .submit();
-            startTextExtraction(subreddit, posts);
-        } catch (AuthenticationException | InterruptedException | IOException e) {
-            throw new RuntimeException("Failed to connect to Reddit API", e);
+    public void startTextExtraction(UUID jobId, String subreddit, int totalPosts) throws IOException, InterruptedException, AuthenticationException {
+        redditClient.userlessConnect();
+        List<RedditPost> posts = redditClient.getSubredditPosts(subreddit, Sorting.TOP)
+            .limit(totalPosts)
+            .time(Time.ALL) // TODO Make this adjustable at the API level
+            .submit();
+        for (RedditPost post : posts) {
+            sendPayloadToQueue(jobId, TextPayloadEventType.POST, "%s %s".formatted(post.getTitle(), post.getSelftext()));
+            sendCommentsFromPostToQueue(jobId, subreddit, post);
         }
+        sendPayloadToQueue(jobId, TextPayloadEventType.COMPLETION, subreddit);
     }
 
-    private void startTextExtraction(String subreddit, List<RedditPost> posts)
-            throws IOException, InterruptedException, AuthenticationException {
-        for (RedditPost post : posts) {
-            sendPayloadToQueue(TextPayloadEventType.POST, String.format("%s %s", post.getTitle(), post.getSelftext()));
-            redditClient.getCommentsForPost(subreddit, post.getId())
-                .submit()
-                .stream()
-                .filter(DataExtractionProducer::isValidComment)
-                .forEach(comment -> {
-                    sendPayloadToQueue(TextPayloadEventType.COMMENT, comment.getBody());
-                    sendCommentRepliesToQueue(comment);
-                });
-        }
-        sendPayloadToQueue(TextPayloadEventType.COMPLETION, subreddit);
+    private void sendCommentsFromPostToQueue(UUID jobId, String subreddit, RedditPost post) throws IOException, InterruptedException, AuthenticationException {
+        redditClient.getCommentsForPost(subreddit, post.getId())
+            .submit()
+            .stream()
+            .filter(DataExtractionProducer::isValidComment)
+            .forEach(comment -> {
+                sendPayloadToQueue(jobId, TextPayloadEventType.COMMENT, comment.getBody());
+                sendCommentRepliesToQueue(comment);
+            });
     }
 
     private void sendCommentRepliesToQueue(RedditComment comment) {
@@ -86,9 +73,10 @@ public class DataExtractionProducer {
         }
     }
 
-    private void sendPayloadToQueue(TextPayloadEventType messageType, String data) {
+    private void sendPayloadToQueue(UUID jobId, TextPayloadEventType messageType, String data) {
         if (data != null) {
             TextPayloadEvent event = TextPayloadEvent.builder()
+                .jobId(jobId)
                 .type(messageType)
                 .payload(data)
                 .build();

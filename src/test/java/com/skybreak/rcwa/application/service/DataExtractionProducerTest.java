@@ -24,7 +24,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -32,13 +31,13 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 class DataExtractionProducerTest extends AbstractTestContainer {
 
+    private static final UUID TEST_JOB_ID = UUID.randomUUID();
     private static final String SUBREDDIT_NAME = "test";
     private static final int DEFAULT_TOTAL_POSTS = 25;
 
@@ -72,21 +71,12 @@ class DataExtractionProducerTest extends AbstractTestContainer {
         given(reddit4J.getCommentsForPost(eq(SUBREDDIT_NAME), anyString())).willReturn(commentListingEndpointRequest);
         willDoNothing().given(reddit4J).userlessConnect();
 
-        target.startJob(SUBREDDIT_NAME, DEFAULT_TOTAL_POSTS);
+        target.startTextExtraction(TEST_JOB_ID, SUBREDDIT_NAME, DEFAULT_TOTAL_POSTS);
 
         then(reddit4J).should().userlessConnect();
         then(reddit4J).should().getSubredditPosts(SUBREDDIT_NAME, Sorting.TOP);
         then(reddit4J).should(times(3)).getCommentsForPost(eq(SUBREDDIT_NAME), anyString());
         then(rabbitTemplate).should(times(13)).convertAndSend(any(), any(TextPayloadEvent.class));
-    }
-
-    @Test
-    void givenSubRedditJobRequest_whenRestClientConnects_shouldThrowAuthenticationException() throws AuthenticationException, IOException, InterruptedException {
-        willThrow(new AuthenticationException()).given(reddit4J).userlessConnect();
-        assertThatThrownBy(() -> target.startJob(SUBREDDIT_NAME, DEFAULT_TOTAL_POSTS))
-            .isInstanceOf(RuntimeException.class)
-            .hasMessage("Failed to connect to Reddit API");
-        then(reddit4J).should().userlessConnect();
     }
 
     private static List<RedditComment> createTestRedditComments(int totalComments) {
