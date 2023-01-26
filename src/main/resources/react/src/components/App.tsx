@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import {ResultTable, ResultTableRow} from "./molecules/ResultTable";
 
 interface ResultMetadata {
     id: string,
@@ -9,17 +10,9 @@ interface ResultMetadata {
     totalPostsToScan: number
 }
 
-interface ResultItem {
-    count: number,
-    id: string,
-    jobId: string,
-    textItem: string,
-    type: string
-}
-
 interface ResultSummary {
     job_execution_metadata: ResultMetadata,
-    results: ResultItem[]
+    results: ResultTableRow[]
 }
 
 export const App = () => {
@@ -40,21 +33,22 @@ export const App = () => {
     return (
         <>
             <h1>Job Data</h1>
-            { state == null ? null : (
+            {state == null ? null : (
                 <div>
                     <div>
-                        <h3> Summary Info </h3>
-                        <p> Job ID: {state.job_execution_metadata.id} </p>
-                        <p> Subreddit: {state.job_execution_metadata.subreddit} </p>
-                        <p> Total Reddit Posts Scanned: {state.job_execution_metadata.totalPostsToScan} </p>
-                        <p> Job Start Time: {state.job_execution_metadata.jobStartTime} </p>
-                        <p> Job Finish Time: {state.job_execution_metadata.jobFinishTime} </p>
+                        <div>
+                            <h3> Summary Info </h3>
+                            <p> Job ID: {state.job_execution_metadata.id} </p>
+                            <p> Subreddit: {state.job_execution_metadata.subreddit} </p>
+                            <p> Total Reddit Posts Scanned: {state.job_execution_metadata.totalPostsToScan} </p>
+                            <p> Job Start Time: {state.job_execution_metadata.jobStartTime} </p>
+                            <p> Job Finish Time: {state.job_execution_metadata.jobFinishTime} </p>
+                        </div>
                     </div>
                     <div>
-                        <h3> Results </h3>
-                        { state.results.map(result => {
-                            return <div> | ID: {result.id} | Type: {result.type} | Word: {result.textItem} | Count: {result.count} | </div>
-                        }) }
+                        <div>
+                            <ResultTable rows={state.results}/>
+                        </div>
                     </div>
                 </div>
             )}
