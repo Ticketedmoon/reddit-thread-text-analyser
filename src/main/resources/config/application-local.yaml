@@ -1,14 +1,14 @@
 spring:
   rabbitmq:
-    host: XXX
+    host: localhost
     port: 5672
-    username: XXX
-    password: XXX
+    username: ${RABBITMQ_DEFAULT_USER}
+    password: ${RABBITMQ_DEFAULT_PASS}
 
 api:
   reddit:
-    app_name: "XXX"
-    author: "XXX"
-    version: "XXX0"
-    client_id: "XXX"
-    client_secret: "XXX"
+    app_name: ${REDDIT_API_APP_NAME}
+    author: ${REDDIT_API_AUTHOR}
+    version: ${REDDIT_API_VERSION}
+    client_id: ${REDDIT_API_CLIENT_ID}
+    client_secret: ${REDDIT_API_CLIENT_SECRET}
