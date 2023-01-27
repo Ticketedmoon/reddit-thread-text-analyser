@@ -10,13 +10,9 @@ import {RedditTextType} from "../types/RedditTextType";
 import {Box, styled, tableCellClasses, TablePagination, TableSortLabel} from "@mui/material";
 import {visuallyHidden} from '@mui/utils';
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
+const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 14
+        fontSize: 14,
     },
 }));
 
@@ -34,7 +30,7 @@ export interface ResultTableRow {
     id: string,
     jobId: string,
     type: RedditTextType,
-    textItem: RedditTextType,
+    textItem: string,
     count: number
 }
 
@@ -83,6 +79,7 @@ interface EnhancedTableProps {
     rowCount: number;
 }
 
+/* TODO Move me to own atom or molecule component */
 const EnhancedTableHead = (props: EnhancedTableProps) => {
     const {order, orderBy, onRequestSort} = props;
     const createSortHandler = (property: keyof ResultTableRow) => (event: React.MouseEvent<unknown>) => {
@@ -194,7 +191,7 @@ export const ResultTable = (props: {rows: ResultTableRow[]}): JSX.Element => {
     }
 
     return (
-        <Box sx={{width: 0.5}}>
+        <Box>
             <Paper sx={{width: 1, mb: 2}}>
                 <TableContainer>
                     <Table sx={{width: 1}}

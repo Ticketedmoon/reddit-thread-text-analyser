@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {ResultTable, ResultTableRow} from "./molecules/ResultTable";
+import {ResultTable, ResultTableRow} from "./organisms/ResultTable";
+import {RedditTextType} from "./types/RedditTextType";
+import {Box, Divider} from "@mui/material";
 
 interface ResultMetadata {
     id: string,
@@ -32,10 +34,14 @@ export const App = () => {
 
     return (
         <>
-            <h1>Job Data</h1>
             {state == null ? null : (
                 <div>
-                    <div>
+                    <Box display="flex"
+                         alignItems="center"
+                         flexDirection="column">
+
+                        {/* TODO: Replace with <typography> and new fonts */}
+                        <h1>Job Data</h1>
                         <div>
                             <h3> Summary Info </h3>
                             <p> Job ID: {state.job_execution_metadata.id} </p>
@@ -44,12 +50,39 @@ export const App = () => {
                             <p> Job Start Time: {state.job_execution_metadata.jobStartTime} </p>
                             <p> Job Finish Time: {state.job_execution_metadata.jobFinishTime} </p>
                         </div>
-                    </div>
-                    <div>
-                        <div>
+                    </Box>
+
+                    <Divider variant="middle" />
+
+                    <Box display="flex"
+                         pt={5}
+                         alignItems="center"
+                         width={1}
+                         flexDirection="column">
+                        <Box width={0.6}>
+                            <h3> Overall Results </h3>
                             <ResultTable rows={state.results}/>
-                        </div>
-                    </div>
+                        </Box>
+
+                        {/* TODO have this separation returned from the backend */}
+
+                        <Box width={0.6}>
+                            <h3> Results (Posts) </h3>
+                            <ResultTable rows={state.results.filter(res => res.type === RedditTextType.POST)}/>
+                        </Box>
+
+
+                        <Box width={0.6}>
+                            <h3> Results (Comments) </h3>
+                            <ResultTable rows={state.results.filter(res => res.type === RedditTextType.COMMENT)}/>
+                        </Box>
+
+                        {/* TODO Investigate why there are no replies */}
+                        <Box width={0.6}>
+                            <h3> Results (Replies) </h3>
+                            <ResultTable rows={state.results.filter(res => res.type === RedditTextType.REPLY)}/>
+                        </Box>
+                    </Box>
                 </div>
             )}
         </>

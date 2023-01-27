@@ -1,5 +1,5 @@
 export enum RedditTextType {
-    POST,
-    COMMENT,
-    REPLY
+    POST = "POST",
+    COMMENT = "COMMENT",
+    REPLY = "REPLY"
 }
