@@ -7,5 +7,6 @@ public enum TextPayloadEventType {
     POST,
     COMMENT,
     REPLY,
+    OVERALL,
     COMPLETION
 }

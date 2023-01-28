@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {RedditTextType} from "../types/RedditTextType";
+import {ThreadTextType} from "../types/ThreadTextType";
 import {Box, styled, tableCellClasses, TablePagination, TableSortLabel} from "@mui/material";
 import {visuallyHidden} from '@mui/utils';
 
@@ -29,48 +29,22 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export interface ResultTableRow {
     id: string,
     jobId: string,
-    type: RedditTextType,
+    type: ThreadTextType,
     textItem: string,
     count: number
 }
 
-interface HeadCell {
+export interface HeadCell {
     id: (keyof ResultTableRow);
     numeric: boolean;
     disablePadding: boolean;
     label: string;
 }
 
-const headCells: readonly HeadCell[] = [
-    {
-        id: 'id',
-        numeric: false,
-        disablePadding: true,
-        label: 'ID',
-    },
-    {
-        id: 'type',
-        numeric: false,
-        disablePadding: false,
-        label: 'Type',
-    },
-    {
-        id: 'textItem',
-        numeric: false,
-        disablePadding: false,
-        label: 'Text',
-    },
-    {
-        id: 'count',
-        numeric: true,
-        disablePadding: false,
-        label: 'Count',
-    }
-];
-
 type Order = 'asc' | 'desc';
 
 interface EnhancedTableProps {
+    headCells: readonly HeadCell[]
     numSelected: number;
     onRequestSort: (event: React.MouseEvent<unknown>, property: keyof ResultTableRow) => void;
     onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -89,7 +63,7 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
     return (
         <TableHead>
             <TableRow>
-                {headCells.map((headCell) => (
+                {props.headCells.map((headCell) => (
                     <StyledTableCell key={headCell.id}
                                      align={headCell.numeric ? 'right' : 'left'}
                                      padding={headCell.disablePadding ? 'none' : 'normal'}
@@ -111,7 +85,10 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
     );
 }
 
-export const ResultTable = (props: {rows: ResultTableRow[]}): JSX.Element => {
+export const ResultTable = (props: {
+    headCells: readonly HeadCell[]
+    rows: ResultTableRow[]
+}): JSX.Element => {
 
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof ResultTableRow>('count');
@@ -197,7 +174,8 @@ export const ResultTable = (props: {rows: ResultTableRow[]}): JSX.Element => {
                     <Table sx={{width: 1}}
                            size="small"
                            aria-label="result table">
-                        <EnhancedTableHead numSelected={selected.length}
+                        <EnhancedTableHead headCells={props.headCells}
+                                           numSelected={selected.length}
                                            order={order}
                                            orderBy={orderBy}
                                            onSelectAllClick={handleSelectAllClick}
@@ -215,12 +193,10 @@ export const ResultTable = (props: {rows: ResultTableRow[]}): JSX.Element => {
                                                         aria-checked={isItemSelected}
                                                         tabIndex={-1}
                                                         selected={isItemSelected}>
-                                            <StyledTableCell component="th" scope="row">
-                                                {row.id}
-                                            </StyledTableCell>
-                                            <StyledTableCell>{row.type}</StyledTableCell>
-                                            <StyledTableCell>{row.textItem}</StyledTableCell>
-                                            <StyledTableCell align="right">{row.count}</StyledTableCell>
+                                            { row.id === null ? null : <StyledTableCell component="th" scope="row">{row.id}</StyledTableCell> }
+                                            { row.type === null ? null : <StyledTableCell>{row.type}</StyledTableCell> }
+                                            { row.textItem === null ? null : <StyledTableCell>{row.textItem}</StyledTableCell> }
+                                            { row.count === null ? null : <StyledTableCell align="right">{row.count}</StyledTableCell> }
                                         </StyledTableRow>
                                     )
                                 })}

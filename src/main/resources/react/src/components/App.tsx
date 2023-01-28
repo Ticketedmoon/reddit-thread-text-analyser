@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {ResultTable, ResultTableRow} from "./organisms/ResultTable";
-import {RedditTextType} from "./types/RedditTextType";
+import {HeadCell, ResultTable, ResultTableRow} from "./organisms/ResultTable";
 import {Box, Divider} from "@mui/material";
+import {ThreadTextType} from "./types/ThreadTextType";
 
 interface ResultMetadata {
     id: string,
@@ -12,10 +12,41 @@ interface ResultMetadata {
     totalPostsToScan: number
 }
 
+type ResultMap = {
+    [type: string]: ResultTableRow[]
+}
+
 interface ResultSummary {
     job_execution_metadata: ResultMetadata,
-    results: ResultTableRow[]
+    results: ResultMap
 }
+
+const headCells: readonly HeadCell[] = [
+    {
+        id: 'id',
+        numeric: false,
+        disablePadding: true,
+        label: 'ID',
+    },
+    {
+        id: 'type',
+        numeric: false,
+        disablePadding: false,
+        label: 'Type',
+    },
+    {
+        id: 'textItem',
+        numeric: false,
+        disablePadding: false,
+        label: 'Text',
+    },
+    {
+        id: 'count',
+        numeric: true,
+        disablePadding: false,
+        label: 'Count',
+    }
+];
 
 export const App = () => {
 
@@ -61,26 +92,27 @@ export const App = () => {
                          flexDirection="column">
                         <Box width={0.6}>
                             <h3> Overall Results </h3>
-                            <ResultTable rows={state.results}/>
+                            <ResultTable
+                                headCells={headCells.filter(item => item.id != "id")}
+                                rows={state.results[ThreadTextType.OVERALL]}/>
                         </Box>
-
-                        {/* TODO have this separation returned from the backend */}
 
                         <Box width={0.6}>
                             <h3> Results (Posts) </h3>
-                            <ResultTable rows={state.results.filter(res => res.type === RedditTextType.POST)}/>
+                            <ResultTable headCells={headCells}
+                                         rows={state.results[ThreadTextType.POST]}/>
                         </Box>
-
 
                         <Box width={0.6}>
                             <h3> Results (Comments) </h3>
-                            <ResultTable rows={state.results.filter(res => res.type === RedditTextType.COMMENT)}/>
+                            <ResultTable headCells={headCells}
+                                         rows={state.results[ThreadTextType.COMMENT]}/>
                         </Box>
 
-                        {/* TODO Investigate why there are no replies */}
                         <Box width={0.6}>
                             <h3> Results (Replies) </h3>
-                            <ResultTable rows={state.results.filter(res => res.type === RedditTextType.REPLY)}/>
+                            <ResultTable headCells={headCells}
+                                         rows={state.results[ThreadTextType.REPLY]}/>
                         </Box>
                     </Box>
                 </div>

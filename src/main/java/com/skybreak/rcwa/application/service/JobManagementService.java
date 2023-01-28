@@ -1,6 +1,7 @@
 package com.skybreak.rcwa.application.service;
 
 import com.skybreak.rcwa.domain.core.JobResultSummary;
+import com.skybreak.rcwa.domain.event.TextPayloadEventType;
 import com.skybreak.rcwa.infrastructure.persistence.JobExecutionMetadataRepository;
 import com.skybreak.rcwa.infrastructure.persistence.UserThreadTextRepository;
 import com.skybreak.rcwa.infrastructure.persistence.dao.JobExecutionMetadata;
@@ -11,10 +12,12 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,13 +59,34 @@ public class JobManagementService {
      */
     public JobResultSummary getResultsForJob(UUID jobId) {
         JobExecutionMetadata jobResultSummary = jobExecutionMetadataRepository.findById(jobId);
-        List<UserThreadTextItem> results = userThreadTextRepository.findAllByJobId(jobId)
+
+        Map<TextPayloadEventType, List<UserThreadTextItem>> textItemTypeToItemList = new HashMap<>();
+        Map<String, UserThreadTextItem> textItemValueToItemObj = new HashMap<>();
+
+        userThreadTextRepository.findAllByJobId(jobId)
             .stream()
             .sorted(Comparator.comparingInt(UserThreadTextItem::getCount).reversed())
-            .collect(Collectors.toList());
+            .forEach(item -> {
+                List<UserThreadTextItem> itemsForType = textItemTypeToItemList.getOrDefault(item.getType(), new ArrayList<>());
+                itemsForType.add(item);
+
+                textItemTypeToItemList.put(item.getType(), itemsForType);
+                UserThreadTextItem nextItemForOverallSummary = textItemValueToItemObj.getOrDefault(item.getTextItem(), UserThreadTextItem.builder()
+                    .type(TextPayloadEventType.OVERALL)
+                    .textItem(item.getTextItem())
+                    .build());
+                nextItemForOverallSummary.setCount(nextItemForOverallSummary.getCount() + item.getCount());
+                textItemValueToItemObj.put(item.getTextItem(), nextItemForOverallSummary);
+            });
+
         return JobResultSummary.builder()
             .jobExecutionMetadata(jobResultSummary)
-            .results(results)
+            .results(Map.of(
+                TextPayloadEventType.POST, textItemTypeToItemList.get(TextPayloadEventType.POST),
+                TextPayloadEventType.COMMENT, textItemTypeToItemList.get(TextPayloadEventType.COMMENT),
+                TextPayloadEventType.REPLY, textItemTypeToItemList.get(TextPayloadEventType.REPLY),
+                TextPayloadEventType.OVERALL, textItemValueToItemObj.values().stream().toList()
+            ))
             .build();
     }
 }
