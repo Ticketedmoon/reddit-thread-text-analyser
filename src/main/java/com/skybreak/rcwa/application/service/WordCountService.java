@@ -20,12 +20,12 @@ public class WordCountService {
     private static final String STOP_WORD_FILE_PATH = "src/main/resources/data/english_stop_words.txt";
     private static final String WHITESPACE_MATCH_REGEX = "\\s+";
     private static final String PUNCTUATION_REMOVAL_REGEX = "[^a-zA-Z0-9\\s+]";
-    private static final String HYPERTEXT_LINK_REGEX = "\\S+://\\S+";
+    private static final String HYPERLINK_REGEX = "\\S+://\\S+";
 
     private List<String> stopWords;
 
     @PostConstruct
-    private void initialise() throws IOException {
+    void initialise() throws IOException {
         stopWords = Files.readAllLines(Paths.get(STOP_WORD_FILE_PATH));
     }
 
@@ -46,7 +46,7 @@ public class WordCountService {
 
     private List<String> convertPayloadTextToSanitisedWords(String payload) {
         String cleanedPayload = payload
-            .replaceAll(HYPERTEXT_LINK_REGEX, "")
+            .replaceAll(HYPERLINK_REGEX, "")
             .replaceAll("\n", " ")
             .replaceAll(PUNCTUATION_REMOVAL_REGEX, "");
         List<String> words = Arrays.stream(cleanedPayload.split(WHITESPACE_MATCH_REGEX))
