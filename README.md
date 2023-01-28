@@ -50,3 +50,28 @@ Remove file from remote git history:
 ```
 git filter-branch --force --index-filter "git rm --cached --ignore-unmatch {RELATIVE_PATH}" --prune-empty --tag-name-filter cat -- --all
 ```
+
+List tables with Dynamodb CLI (local):
+```
+aws dynamodb list-tables --endpoint-url http://localhost:8000 --region local
+```
+
+Delete table with Dynamodb CLI (local):
+```
+aws dynamodb delete-table --table-name {TABLE_NAME} --endpoint-url http://localhost:8000 --region local
+```
+
+Delete table item with Dynamodb CLI (local):
+```
+aws dynamodb delete-item \ 
+--table-name job_summary_info \
+--key '{ "A": {"B": "C"} }' \
+--return-values ALL_OLD \
+--return-consumed-capacity TOTAL \
+--return-item-collection-metrics SIZE \
+--endpoint-url http://localhost:8000 \
+--region local
+```
+
+Where `A` is the column key, `B` is the type ('S' = String, 'N' = Integer, ...) and `C` is the row value.  
+**Note:** To delete multiple items, use the above command inside a script alternating the values in a loop. 
