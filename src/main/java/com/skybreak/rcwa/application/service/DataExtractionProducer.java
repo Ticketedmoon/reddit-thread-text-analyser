@@ -48,27 +48,28 @@ public class DataExtractionProducer {
             .filter(DataExtractionProducer::isValidComment)
             .forEach(comment -> {
                 sendPayloadToQueue(jobId, TextPayloadEventType.COMMENT, comment.getBody());
-                sendCommentRepliesToQueue(comment);
+                sendCommentRepliesToQueue(jobId, comment);
             });
     }
 
-    private void sendCommentRepliesToQueue(RedditComment comment) {
+    private void sendCommentRepliesToQueue(UUID jobId, RedditComment comment) {
         List<TextPayloadEvent> replies = new ArrayList<>();
-        getRepliesForComment(comment, replies);
+        getRepliesForComment(jobId, comment, replies);
         replies.remove(0); // TODO Refactor this, comment also appears in replies
         replies.forEach(reply -> rabbitTemplate.convertAndSend(queueName, reply));
     }
 
-    private void getRepliesForComment(RedditComment comment, List<TextPayloadEvent> replies) {
+    private void getRepliesForComment(UUID jobId, RedditComment comment, List<TextPayloadEvent> replies) {
         if (isValidComment(comment)) {
             replies.add(TextPayloadEvent.builder()
+                .jobId(jobId)
                 .type(TextPayloadEventType.REPLY)
                 .payload(comment.getBody())
                 .build());
             if (comment.getReplies() != null) {
                 comment.getReplies().getData()
                     .getChildren()
-                    .forEach(reply -> getRepliesForComment(reply.getData(), replies));
+                    .forEach(reply -> getRepliesForComment(jobId, reply.getData(), replies));
             }
         }
     }
