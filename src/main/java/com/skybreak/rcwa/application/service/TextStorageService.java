@@ -59,7 +59,7 @@ public class TextStorageService {
                                                             Map<String, Integer> wordToCountMap) {
         List<UserThreadTextItem> threadTextItems = new ArrayList<>();
         wordToCountMap.forEach((word, count) -> {
-            UserThreadTextItem threadTextItem = repository.findByTypeAndTextItem(eventType, word);
+            UserThreadTextItem threadTextItem = repository.findByJobIdAndTypeAndTextItem(jobId, eventType, word);
             if (threadTextItem != null) {
                 threadTextItem.setCount(threadTextItem.getCount() + count);
             } else {

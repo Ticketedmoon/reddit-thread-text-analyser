@@ -13,5 +13,5 @@ import java.util.UUID;
 @EnableScan
 public interface UserThreadTextRepository extends CrudRepository<UserThreadTextItem, String> {
     List<UserThreadTextItem> findAllByJobId(UUID jobId);
-    UserThreadTextItem findByTypeAndTextItem(TextPayloadEventType type, String textItem);
+    UserThreadTextItem findByJobIdAndTypeAndTextItem(UUID jobId, TextPayloadEventType type, String textItem);
 }
