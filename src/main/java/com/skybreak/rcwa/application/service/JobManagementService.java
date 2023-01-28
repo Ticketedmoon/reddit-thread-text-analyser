@@ -42,6 +42,7 @@ public class JobManagementService {
             JobExecutionMetadata jobExecutionMetadata = JobExecutionMetadata.builder()
                 .id(jobId)
                 .subreddit(subreddit)
+                .totalPostsToScan(totalPostsToScan)
                 .jobStartTime(LocalDateTime.now())
                 .build();
             jobExecutionMetadataRepository.save(jobExecutionMetadata);
@@ -58,25 +59,30 @@ public class JobManagementService {
      * @param jobId The jobId associated with a particular subreddit word analysis.
      */
     public JobResultSummary getResultsForJob(UUID jobId) {
-        JobExecutionMetadata jobResultSummary = jobExecutionMetadataRepository.findById(jobId);
+        JobExecutionMetadata jobResultSummary = jobExecutionMetadataRepository.findById(jobId)
+            .orElseThrow(() -> new IllegalArgumentException("Job execution metadata for Job ID %s not found".formatted(jobId)));
+
+        List<UserThreadTextItem> threadTextItems = userThreadTextRepository.findAllByJobId(jobId);
+        if (threadTextItems.isEmpty()) {
+            throw new IllegalArgumentException("Job results for Job ID %s not found".formatted(jobId));
+        }
 
         Map<TextPayloadEventType, List<UserThreadTextItem>> textItemTypeToItemList = new HashMap<>();
-        Map<String, UserThreadTextItem> textItemValueToItemObj = new HashMap<>();
+        Map<String, UserThreadTextItem> textValueToThreadItem = new HashMap<>();
 
-        userThreadTextRepository.findAllByJobId(jobId)
-            .stream()
+        threadTextItems.stream()
             .sorted(Comparator.comparingInt(UserThreadTextItem::getCount).reversed())
             .forEach(item -> {
                 List<UserThreadTextItem> itemsForType = textItemTypeToItemList.getOrDefault(item.getType(), new ArrayList<>());
                 itemsForType.add(item);
 
                 textItemTypeToItemList.put(item.getType(), itemsForType);
-                UserThreadTextItem nextItemForOverallSummary = textItemValueToItemObj.getOrDefault(item.getTextItem(), UserThreadTextItem.builder()
+                UserThreadTextItem nextItemForOverallSummary = textValueToThreadItem.getOrDefault(item.getTextItem(), UserThreadTextItem.builder()
                     .type(TextPayloadEventType.OVERALL)
                     .textItem(item.getTextItem())
                     .build());
                 nextItemForOverallSummary.setCount(nextItemForOverallSummary.getCount() + item.getCount());
-                textItemValueToItemObj.put(item.getTextItem(), nextItemForOverallSummary);
+                textValueToThreadItem.put(item.getTextItem(), nextItemForOverallSummary);
             });
 
         return JobResultSummary.builder()
@@ -85,7 +91,7 @@ public class JobManagementService {
                 TextPayloadEventType.POST, textItemTypeToItemList.get(TextPayloadEventType.POST),
                 TextPayloadEventType.COMMENT, textItemTypeToItemList.get(TextPayloadEventType.COMMENT),
                 TextPayloadEventType.REPLY, textItemTypeToItemList.get(TextPayloadEventType.REPLY),
-                TextPayloadEventType.OVERALL, textItemValueToItemObj.values().stream().toList()
+                TextPayloadEventType.OVERALL, textValueToThreadItem.values().stream().toList()
             ))
             .build();
     }

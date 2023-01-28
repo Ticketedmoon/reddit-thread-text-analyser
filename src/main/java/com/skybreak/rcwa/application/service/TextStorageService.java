@@ -21,6 +21,9 @@ import java.util.UUID;
 @Slf4j
 public class TextStorageService {
 
+
+    private static final String FAILED_TO_FIND_JOB_FOR_COMPLETION_ERROR = "Failed to find/complete job with ID %s, job finish time not set";
+
     private final WordCountService wordCountService;
     private final UserThreadTextRepository repository;
     private final JobExecutionMetadataRepository jobExecutionMetadataRepository;
@@ -45,7 +48,8 @@ public class TextStorageService {
      */
     public void completeAnalysisJob(TextPayloadEvent event) {
         log.info("Subreddit [{}] analysis job completed.", event.getPayload());
-        JobExecutionMetadata summaryInfo = jobExecutionMetadataRepository.findById(event.getJobId());
+        JobExecutionMetadata summaryInfo = jobExecutionMetadataRepository.findById(event.getJobId())
+            .orElseThrow(() -> new IllegalStateException(FAILED_TO_FIND_JOB_FOR_COMPLETION_ERROR.formatted(event.getJobId())));
         summaryInfo.setJobFinishTime(LocalDateTime.now());
         jobExecutionMetadataRepository.save(summaryInfo);
     }

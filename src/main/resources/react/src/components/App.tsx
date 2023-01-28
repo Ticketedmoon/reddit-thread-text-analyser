@@ -53,7 +53,7 @@ export const App = () => {
     const [state, setState] = useState<ResultSummary | null>(null);
 
     useEffect(() => {
-        const testJobId: string = "3fe7fd0e-75f5-4e7f-b26e-dfaff06d0d17";
+        const testJobId: string = "7b9ed31b-688b-4258-a618-ee5c212eb1dd";
         axios.get(`/api/job-reports/${testJobId}/results`, {})
             .then(res => {
                 setState(res.data)
