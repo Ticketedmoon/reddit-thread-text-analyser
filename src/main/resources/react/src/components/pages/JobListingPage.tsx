@@ -8,11 +8,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import {useLoaderData, useNavigate} from "react-router-dom";
+import {Outlet, useLoaderData} from "react-router-dom";
 
 export const JobListingPage: React.FC = () => {
-
-    const navigate = useNavigate();
 
     const jobs: JobMetadata[] = useLoaderData() as JobMetadata[];
 
@@ -56,10 +54,7 @@ export const JobListingPage: React.FC = () => {
 
                                     {/* TODO can't be inside <TableRow> + make button smaller + nicer design */}
                                     <Button variant="contained"
-                                            color="success"
-                                            onClick={() => navigate(`/results/${jobMetadata.id}`, {
-                                                replace: true
-                                            })}>
+                                            color="success">
                                         View Results
                                     </Button>
                                 </TableRow>
@@ -68,6 +63,7 @@ export const JobListingPage: React.FC = () => {
                     </Table>
                 </TableContainer>
             </Box>
+            <Outlet/>
         </Box>
     )
 }
