@@ -6,6 +6,7 @@ module.exports = {
     output: {
         filename: "main.js",
         path: path.resolve(__dirname, "dist"),
+        publicPath: '/'
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -18,6 +19,7 @@ module.exports = {
             directory: path.join(__dirname, "dist"),
         },
         port: 3000,
+        historyApiFallback: true,
         proxy: {
             '/api': {
                 target: 'http://localhost:3000',
