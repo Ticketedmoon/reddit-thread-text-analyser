@@ -1,4 +1,4 @@
-package com.skybreak.rcwa.application.service;
+package com.skybreak.rcwa.application.service.impl;
 
 import com.skybreak.rcwa.domain.event.TextPayloadEvent;
 import com.skybreak.rcwa.domain.event.TextPayloadEventType;
@@ -20,7 +20,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class TextStorageService {
-
 
     private static final String FAILED_TO_FIND_JOB_FOR_COMPLETION_ERROR = "Failed to find/complete job with ID %s, job finish time not set";
 

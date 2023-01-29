@@ -1,4 +1,4 @@
-package com.skybreak.rcwa.application.service;
+package com.skybreak.rcwa.application.service.impl;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;

@@ -3,14 +3,13 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {ThreadTextType} from "../types/ThreadTextType";
-import {Box, styled, tableCellClasses, TablePagination, TableSortLabel} from "@mui/material";
-import {visuallyHidden} from '@mui/utils';
+import {Box, styled, tableCellClasses, TablePagination} from "@mui/material";
+import {EnhancedTableHead, Order} from "./EnhancedTableHead";
 
-const StyledTableCell = styled(TableCell)(() => ({
+export const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.body}`]: {
         fontSize: 14,
     },
@@ -39,50 +38,6 @@ export interface HeadCell {
     numeric: boolean;
     disablePadding: boolean;
     label: string;
-}
-
-type Order = 'asc' | 'desc';
-
-interface EnhancedTableProps {
-    headCells: readonly HeadCell[]
-    numSelected: number;
-    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof ResultTableRow) => void;
-    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    order: Order;
-    orderBy: string;
-    rowCount: number;
-}
-
-/* TODO Move me to own atom or molecule component */
-const EnhancedTableHead = (props: EnhancedTableProps) => {
-    const {order, orderBy, onRequestSort} = props;
-    const createSortHandler = (property: keyof ResultTableRow) => (event: React.MouseEvent<unknown>) => {
-        onRequestSort(event, property);
-    };
-
-    return (
-        <TableHead>
-            <TableRow>
-                {props.headCells.map((headCell) => (
-                    <StyledTableCell key={headCell.id}
-                                     align={headCell.numeric ? 'right' : 'left'}
-                                     padding={headCell.disablePadding ? 'none' : 'normal'}
-                                     sortDirection={orderBy === headCell.id ? order : false}>
-                        <TableSortLabel active={orderBy === headCell.id}
-                                        direction={orderBy === headCell.id ? order : 'asc'}
-                                        onClick={createSortHandler(headCell.id)}>
-                            {headCell.label}
-                            {orderBy === headCell.id ? (
-                                <Box component="span" sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                </Box>
-                            ) : null}
-                        </TableSortLabel>
-                    </StyledTableCell>
-                ))}
-            </TableRow>
-        </TableHead>
-    );
 }
 
 export const ResultTable = (props: {

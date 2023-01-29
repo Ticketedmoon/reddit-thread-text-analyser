@@ -1,6 +1,7 @@
 package com.skybreak.rcwa.application.service;
 
 import com.skybreak.rcwa.AbstractIntegrationTestContainer;
+import com.skybreak.rcwa.application.service.impl.TextStorageService;
 import com.skybreak.rcwa.domain.event.TextPayloadEvent;
 import com.skybreak.rcwa.domain.event.TextPayloadEventType;
 import com.skybreak.rcwa.infrastructure.persistence.UserThreadTextRepository;

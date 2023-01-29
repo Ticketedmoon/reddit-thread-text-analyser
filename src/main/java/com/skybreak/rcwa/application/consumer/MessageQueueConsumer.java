@@ -1,6 +1,6 @@
 package com.skybreak.rcwa.application.consumer;
 
-import com.skybreak.rcwa.application.service.TextStorageService;
+import com.skybreak.rcwa.application.service.impl.TextStorageService;
 import com.skybreak.rcwa.domain.event.TextPayloadEvent;
 import com.skybreak.rcwa.domain.event.TextPayloadEventType;
 import lombok.RequiredArgsConstructor;

@@ -3,6 +3,7 @@ package com.skybreak.rcwa.application.controller;
 import com.skybreak.rcwa.application.dto.JobCreated;
 import com.skybreak.rcwa.application.service.JobManagementService;
 import com.skybreak.rcwa.domain.core.JobResultSummary;
+import com.skybreak.rcwa.infrastructure.persistence.dao.JobExecutionMetadata;
 import jakarta.validation.constraints.Max;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -51,8 +53,14 @@ public class JobManagementController {
         );
     }
 
-    @GetMapping("/job-reports/{jobId}/results")
-    public ResponseEntity<JobResultSummary> startReport(@PathVariable UUID jobId) {
+    @GetMapping("/job-reports/results")
+    public ResponseEntity<List<JobExecutionMetadata>> getJobs() {
+        List<JobExecutionMetadata> jobResultSummaryList = jobManagementService.getResultSummariesForAllJobs();
+        return ResponseEntity.ok(jobResultSummaryList);
+    }
+
+    @GetMapping("/job-reports/results/{jobId}")
+    public ResponseEntity<JobResultSummary> getJobById(@PathVariable UUID jobId) {
         JobResultSummary resultSummaryForJob = jobManagementService.getResultsForJob(jobId);
         return ResponseEntity.ok(resultSummaryForJob);
     }

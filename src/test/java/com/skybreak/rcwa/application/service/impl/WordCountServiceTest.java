@@ -1,4 +1,4 @@
-package com.skybreak.rcwa.application.service;
+package com.skybreak.rcwa.application.service.impl;
 
 import com.skybreak.rcwa.AbstractTestContainer;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,4 @@
-package com.skybreak.rcwa.application.service;
+package com.skybreak.rcwa.application.service.impl.producer;
 
 import com.skybreak.rcwa.AbstractTestContainer;
 import com.skybreak.rcwa.domain.event.TextPayloadEvent;
@@ -35,7 +35,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-class DataExtractionProducerTest extends AbstractTestContainer {
+class ThreadTextProducerTest extends AbstractTestContainer {
 
     private static final UUID TEST_JOB_ID = UUID.randomUUID();
     private static final String SUBREDDIT_NAME = "test";
@@ -48,7 +48,7 @@ class DataExtractionProducerTest extends AbstractTestContainer {
     private Reddit4J reddit4J;
 
     @InjectMocks
-    private DataExtractionProducer target;
+    private ThreadTextProducer target;
 
     @AfterEach
     void teardown() {

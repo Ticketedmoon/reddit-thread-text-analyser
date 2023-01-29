@@ -1,6 +1,7 @@
-package com.skybreak.rcwa.application.service;
+package com.skybreak.rcwa.application.service.impl;
 
 import com.skybreak.rcwa.AbstractTestContainer;
+import com.skybreak.rcwa.application.service.impl.producer.ThreadTextProducer;
 import com.skybreak.rcwa.infrastructure.persistence.JobExecutionMetadataRepository;
 import com.skybreak.rcwa.infrastructure.persistence.dao.JobExecutionMetadata;
 import masecla.reddit4j.exceptions.AuthenticationException;
@@ -19,34 +20,34 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-public class JobManagementServiceTest extends AbstractTestContainer {
+public class JobManagementServiceImplTest extends AbstractTestContainer {
 
     private static final UUID TEST_JOB_ID = UUID.randomUUID();
     private static final String SUBREDDIT_NAME = "test";
     private static final int DEFAULT_TOTAL_POSTS = 25;
 
     @Mock
-    private DataExtractionProducer dataExtractionProducer;
+    private ThreadTextProducer threadTextProducer;
 
     @Mock
     private JobExecutionMetadataRepository jobExecutionMetadataRepository;
 
     @InjectMocks
-    private JobManagementService target;
+    private JobManagementServiceImpl target;
 
     @AfterEach
     void teardown() {
-        verifyNoMoreInteractions(dataExtractionProducer, jobExecutionMetadataRepository);
+        verifyNoMoreInteractions(threadTextProducer, jobExecutionMetadataRepository);
     }
 
     @Test
     void givenSubRedditJobRequest_whenRestClientConnects_shouldThrowAuthenticationException() throws AuthenticationException, IOException, InterruptedException {
         given(jobExecutionMetadataRepository.save(any(JobExecutionMetadata.class))).willReturn(null);
-        willThrow(new AuthenticationException()).given(dataExtractionProducer).startTextExtraction(TEST_JOB_ID, SUBREDDIT_NAME, DEFAULT_TOTAL_POSTS);
+        willThrow(new AuthenticationException()).given(threadTextProducer).startTextExtraction(TEST_JOB_ID, SUBREDDIT_NAME, DEFAULT_TOTAL_POSTS);
         assertThatThrownBy(() -> target.startJob(TEST_JOB_ID, SUBREDDIT_NAME, DEFAULT_TOTAL_POSTS))
             .isInstanceOf(RuntimeException.class)
             .hasMessage("Failed to connect to Reddit API");
         then(jobExecutionMetadataRepository).should().save(any(JobExecutionMetadata.class));
-        then(dataExtractionProducer).should().startTextExtraction(TEST_JOB_ID, SUBREDDIT_NAME, DEFAULT_TOTAL_POSTS);
+        then(threadTextProducer).should().startTextExtraction(TEST_JOB_ID, SUBREDDIT_NAME, DEFAULT_TOTAL_POSTS);
     }
 }

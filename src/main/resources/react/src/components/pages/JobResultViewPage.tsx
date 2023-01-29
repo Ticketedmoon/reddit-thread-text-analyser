@@ -1,23 +1,16 @@
-import React, {useEffect, useState} from "react";
-import axios from "axios";
-import {HeadCell, ResultTable, ResultTableRow} from "./organisms/ResultTable";
+import React from "react";
+import {HeadCell, ResultTable, ResultTableRow} from "../organisms/ResultTable";
 import {Box, Divider} from "@mui/material";
-import {ThreadTextType} from "./types/ThreadTextType";
-
-interface ResultMetadata {
-    id: string,
-    subreddit: string,
-    jobStartTime: string,
-    jobFinishTime: string,
-    totalPostsToScan: number
-}
+import {ThreadTextType} from "../types/ThreadTextType";
+import {JobMetadata} from "../types/JobMetadata";
+import {useLoaderData} from "react-router-dom";
 
 type ResultMap = {
     [type: string]: ResultTableRow[]
 }
 
 interface ResultSummary {
-    job_execution_metadata: ResultMetadata,
+    job_execution_metadata: JobMetadata,
     results: ResultMap
 }
 
@@ -48,24 +41,13 @@ const headCells: readonly HeadCell[] = [
     }
 ];
 
-export const App = () => {
+export const JobResultViewPage: React.FC = () => {
 
-    const [state, setState] = useState<ResultSummary | null>(null);
-
-    useEffect(() => {
-        const testJobId: string = "ffcf256c-4499-4821-9ee9-6f071ac02e6f";
-        axios.get(`/api/job-reports/${testJobId}/results`, {})
-            .then(res => {
-                setState(res.data)
-            })
-            .catch(err => {
-                console.error(err);
-            })
-    }, [])
+    const state: ResultSummary | null = useLoaderData() as ResultSummary | null;
 
     return (
         <>
-            {state == null ? null : (
+            { state == null ? null : (
                 <div>
                     <Box display="flex"
                          alignItems="center"
@@ -118,5 +100,5 @@ export const App = () => {
                 </div>
             )}
         </>
-    );
+    )
 }

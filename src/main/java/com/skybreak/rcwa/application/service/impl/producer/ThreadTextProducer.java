@@ -1,4 +1,4 @@
-package com.skybreak.rcwa.application.service;
+package com.skybreak.rcwa.application.service.impl.producer;
 
 import com.skybreak.rcwa.domain.event.TextPayloadEvent;
 import com.skybreak.rcwa.domain.event.TextPayloadEventType;
@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class DataExtractionProducer {
+public class ThreadTextProducer {
 
     @Value("${queue.name}")
     private String queueName;
@@ -45,7 +45,7 @@ public class DataExtractionProducer {
         redditClient.getCommentsForPost(subreddit, post.getId())
             .submit()
             .stream()
-            .filter(DataExtractionProducer::isValidComment)
+            .filter(ThreadTextProducer::isValidComment)
             .forEach(comment -> {
                 sendPayloadToQueue(jobId, TextPayloadEventType.COMMENT, comment.getBody());
                 sendCommentRepliesToQueue(jobId, comment);

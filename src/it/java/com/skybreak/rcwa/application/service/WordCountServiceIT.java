@@ -1,6 +1,7 @@
 package com.skybreak.rcwa.application.service;
 
 import com.skybreak.rcwa.AbstractIntegrationTestContainer;
+import com.skybreak.rcwa.application.service.impl.WordCountService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
