@@ -8,7 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import {Outlet, useLoaderData} from "react-router-dom";
+import {Link, Outlet, useLoaderData} from "react-router-dom";
 
 export const JobListingPage: React.FC = () => {
 
@@ -53,10 +53,12 @@ export const JobListingPage: React.FC = () => {
                                     <TableCell align="right">{jobMetadata.totalPostsToScan}</TableCell>
 
                                     {/* TODO can't be inside <TableRow> + make button smaller + nicer design */}
-                                    <Button variant="contained"
-                                            color="success">
-                                        View Results
-                                    </Button>
+                                    <Link to={`/results/${jobMetadata.id}`}>
+                                        <Button variant="contained"
+                                                color="success">
+                                            View Results
+                                        </Button>
+                                    </Link>
                                 </TableRow>
                             ))}
                         </TableBody>
