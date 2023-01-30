@@ -8,7 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import {Link, Outlet, useLoaderData} from "react-router-dom";
+import {Link, useLoaderData} from "react-router-dom";
 
 export const JobListingPage: React.FC = () => {
 
@@ -26,8 +26,8 @@ export const JobListingPage: React.FC = () => {
                             fontWeight={"bold"}> Reddit Thread Text Analyser </Typography>
             </Box>
             <Box pt={5}
-                 pl={30}
-                 pr={30}
+                 pl={10}
+                 pr={10}
                  display="flex"
                  flexDirection="column">
                 <TableContainer component={Paper}>
@@ -67,7 +67,6 @@ export const JobListingPage: React.FC = () => {
                     </Table>
                 </TableContainer>
             </Box>
-            <Outlet/>
         </Box>
     )
 }

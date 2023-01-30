@@ -1,5 +1,5 @@
 import React from "react";
-import {HeadCell, ResultTable, ResultTableRow} from "../organisms/ResultTable";
+import {HeadCell, ResultTable, ResultTableRow} from "../organisms/table/ResultTable";
 import {Box, Divider} from "@mui/material";
 import {ThreadTextType} from "../types/ThreadTextType";
 import {JobMetadata} from "../types/JobMetadata";

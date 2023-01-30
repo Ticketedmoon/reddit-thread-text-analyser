@@ -6,26 +6,43 @@ import {JobListingPage} from "./components/pages/JobListingPage";
 import {JobResultViewPage} from "./components/pages/JobResultViewPage";
 import axios, {AxiosResponse} from "axios";
 import {ErrorPage} from "./components/pages/ErrorPage";
+import {NavigationBar} from "./components/organisms/navbar/NavigationBar";
+import {JobCreationPage} from "./components/pages/JobCreationPage";
 
 // TODO More work needed here, add fallback routes
 const router = createBrowserRouter([
     {
         path: "/",
-        element: (<JobListingPage/>),
-        errorElement: <ErrorPage/>,
-        loader: async () => {
-            let res: AxiosResponse = await axios.get("/api/job-reports/results", {})
-            return res.data;
-        }
-    },
-    {
-        path: "/results/:jobId",
-        element: (<JobResultViewPage/>),
-        errorElement: <ErrorPage/>,
-        loader: async ({params}) => {
-            let res: AxiosResponse = await axios.get(`/api/job-reports/results/${params.jobId}`, {})
-            return res.data;
-        }
+        element: <NavigationBar/>,
+        children: [
+            {
+                path: "/",
+                element: (<JobCreationPage/>),
+                errorElement: <ErrorPage/>,
+                loader: async () => {
+                    let res: AxiosResponse = await axios.get("/api/job-reports/results", {})
+                    return res.data;
+                }
+            },
+            {
+                path: "/results",
+                element: (<JobListingPage/>),
+                errorElement: <ErrorPage/>,
+                loader: async () => {
+                    let res: AxiosResponse = await axios.get("/api/job-reports/results", {})
+                    return res.data;
+                }
+            },
+            {
+                path: "/results/:jobId",
+                element: (<JobResultViewPage/>),
+                errorElement: <ErrorPage/>,
+                loader: async ({params}) => {
+                    let res: AxiosResponse = await axios.get(`/api/job-reports/results/${params.jobId}`, {})
+                    return res.data;
+                }
+            }
+        ]
     }
 ]);
 

@@ -5,7 +5,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {ThreadTextType} from "../types/ThreadTextType";
+import {ThreadTextType} from "../../types/ThreadTextType";
 import {Box, styled, tableCellClasses, TablePagination} from "@mui/material";
 import {EnhancedTableHead, Order} from "./EnhancedTableHead";
 
