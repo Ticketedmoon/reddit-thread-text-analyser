@@ -52,13 +52,15 @@ export const JobListingPage: React.FC = () => {
                                     <TableCell align="right">{jobMetadata.jobFinishTime}</TableCell>
                                     <TableCell align="right">{jobMetadata.totalPostsToScan}</TableCell>
 
-                                    {/* TODO can't be inside <TableRow> + make button smaller + nicer design */}
-                                    <Link to={`/results/${jobMetadata.id}`}>
-                                        <Button variant="contained"
-                                                color="success">
-                                            View Results
-                                        </Button>
-                                    </Link>
+                                    {/* TODO Apply nicer design for button */}
+                                    <TableCell>
+                                        <Link to={`/results/${jobMetadata.id}`}>
+                                            <Button variant="contained"
+                                                    color="success">
+                                                View Results
+                                            </Button>
+                                        </Link>
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
