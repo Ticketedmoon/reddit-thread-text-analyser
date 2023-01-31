@@ -34,7 +34,7 @@ public class JobManagementController {
 
     @PostMapping("/job-reports")
     public ResponseEntity<JobCreated> startReport(@RequestParam String subreddit,
-                                                  @RequestParam(defaultValue = "100")
+                                                  @RequestParam(defaultValue = "25")
                                                   @Max(value = 100, message = TOTAL_POSTS_VALIDATION_EXCEPTION_MESSAGE) int totalPosts) {
         UUID jobId = UUID.randomUUID();
         log.info("Starting word scan job with ID: {} for subreddit: {}. total posts to scan: {}", jobId, subreddit, totalPosts);

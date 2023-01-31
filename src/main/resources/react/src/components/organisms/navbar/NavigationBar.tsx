@@ -18,7 +18,7 @@ export const NavigationBar = (): JSX.Element => {
     useEffect(() => {
         const path = location.pathname;
         if (path === "/") {
-            setPage(PageState.COMPLETED_JOBS_PAGE);
+            setPage(PageState.JOB_CREATION_PAGE);
         } else if (path == "/results") {
             setPage(PageState.COMPLETED_JOBS_PAGE);
         }

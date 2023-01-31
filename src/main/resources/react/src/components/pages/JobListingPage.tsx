@@ -1,6 +1,6 @@
 import React from "react";
 import {JobMetadata} from "../types/JobMetadata";
-import {Box, Button, Typography} from "@mui/material";
+import {Box, Button} from "@mui/material";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import Paper from "@mui/material/Paper";
@@ -16,15 +16,6 @@ export const JobListingPage: React.FC = () => {
 
     return (
         <Box>
-            <Box display="flex"
-                 justifyContent="center"
-                 pt={5}>
-                {/* TODO Change this font */}
-                <Typography fontFamily={"cursive"}
-                            color={"#2bfb07"}
-                            variant={"h5"}
-                            fontWeight={"bold"}> Reddit Thread Text Analyser </Typography>
-            </Box>
             <Box pt={5}
                  pl={10}
                  pr={10}
