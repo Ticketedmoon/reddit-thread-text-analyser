@@ -31,24 +31,26 @@ export const NavigationBar = (): JSX.Element => {
 
     return (
         <Box id="navigation-wrapper">
-            <Box width={1} display="flex" border="0.5px solid black" height="3em">
+            <Box width={1} display="flex" height="3em">
                 {/* TODO Make this Box it's own component */}
                 <Box display="flex"
                      flex={50}
-                     borderRight="0.5px solid black"
                      justifyContent="center"
                      alignItems="center"
                      sx={page == PageState.JOB_CREATION_PAGE ? {
-                         backgroundColor: '#00e73240'
+                         backgroundColor: '#1976d2'
                      } : {
                          ':hover': {
-                             backgroundColor: '#00e73240',
+                             backgroundColor: '#1976d2',
                              cursor: 'pointer'
                          },
+                         backgroundColor: '#00000091'
                      }}
                      onClick={() => handleTabChange(PageState.JOB_CREATION_PAGE, "/")}>
                     <Typography variant="subtitle1" sx={{
-                        color: "black",
+                        fontFamily: "MyItimFont, arial, sans-serif",
+                        fontSize: "1.2em",
+                        color: "whitesmoke",
                         letterSpacing: "5px"
                     }}>Job Creation</Typography>
                 </Box>
@@ -58,16 +60,19 @@ export const NavigationBar = (): JSX.Element => {
                      justifyContent="center"
                      alignItems="center"
                      sx={page == PageState.COMPLETED_JOBS_PAGE ? {
-                         backgroundColor: '#00e73240'
+                         backgroundColor: '#1976d2'
                      } : {
                          ':hover': {
-                             backgroundColor: '#00e73240',
+                             backgroundColor: '#1976d2',
                              cursor: 'pointer'
                          },
+                         backgroundColor: '#00000091'
                      }}
                     onClick={() => handleTabChange(PageState.COMPLETED_JOBS_PAGE, "/results")}>
                     <Typography variant="subtitle1" sx={{
-                        color: "black",
+                        color: "whitesmoke",
+                        fontSize: "1.2em",
+                        fontFamily: "MyItimFont, arial, sans-serif",
                         letterSpacing: "5px"
                     }}>Completed Jobs</Typography>
                 </Box>

@@ -9,6 +9,8 @@ import {ErrorPage} from "./components/pages/ErrorPage";
 import {NavigationBar} from "./components/organisms/navbar/NavigationBar";
 import {JobCreationPage} from "./components/pages/JobCreationPage";
 
+import "./index.css";
+
 // TODO More work needed here, add fallback routes
 const router = createBrowserRouter([
     {

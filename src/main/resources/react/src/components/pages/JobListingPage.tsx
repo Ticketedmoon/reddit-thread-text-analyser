@@ -16,11 +16,7 @@ export const JobListingPage: React.FC = () => {
 
     return (
         <Box>
-            <Box pt={5}
-                 pl={10}
-                 pr={10}
-                 display="flex"
-                 flexDirection="column">
+            <Box pt={5} pl={10} pr={10} display="flex" flexDirection="column">
                 <TableContainer component={Paper}>
                     <Table sx={{minWidth: 650}} aria-label="simple table">
                         <TableHead>

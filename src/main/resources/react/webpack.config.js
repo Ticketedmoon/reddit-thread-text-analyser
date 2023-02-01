@@ -36,6 +36,17 @@ module.exports = {
                 use: 'ts-loader',
                 exclude: /node_modules/,
             },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                type: "asset/resource",
+                generator: {
+                    filename: "assets/fonts/[name].[ext]",
+                },
+            },
+            {
+                test: /\.(sass|less|css)$/,
+                use: ["style-loader", "css-loader"],
+            },
         ],
     },
     resolve: {
