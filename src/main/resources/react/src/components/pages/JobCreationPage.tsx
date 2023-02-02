@@ -59,33 +59,54 @@ export const JobCreationPage = (): JSX.Element => {
 
     return (
         <Box>
-            <Box display="flex" justifyContent="center" pt={10}>
-                <Box>
-                    <Typography variant="h5">
-                        Start a Subreddit Analysis
-                    </Typography>
-                </Box>
-            </Box>
+            <Box display="grid" gridTemplateColumns="3fr 0.5fr 3fr" gridAutoRows="auto" mt={3}>
 
-            <Box display="grid" gridTemplateColumns="3fr 1fr 3fr" gridAutoRows="auto" mt={3}>
+                {/* Left Column */}
                 <Box display="flex"
                      justifyContent="center"
-                     alignSelf="center">
-                    <Typography variant="caption">
-                        Morbi porttitor mi sit amet risus lobortis dignissim mollis at nisl.
-                        Quisque vel volutpat felis. Fusce finibus malesuada mi, id aliquam diam
-                        malesuada sodales. Donec ac velit et libero rhoncus fringilla eget aliquet tortor.
-                        Donec vehicula nisl nunc, in bibendum arcu fermentum in. Vivamus porttitor cursus quam,
-                        ac fringilla nisi ultricies quis. Aenean et felis mollis, commodo lorem vel, efficitur enim.
-                        Donec posuere nibh nisl, sit amet consequat mauris iaculis id. Morbi non ultricies lacus.
-                        In ultrices pharetra libero, eu lacinia ex. Morbi sodales lorem eu enim volutpat dapibus.
-                        Suspendisse rhoncus, ipsum suscipit accumsan ultricies, orci metus sagittis velit, eu
-                        interdum metus urna in nunc. Nunc eu accumsan justo. Phasellus pellentesque, erat vitae
-                        ornare pulvinar, ante ipsum pellentesque orci, et lobortis enim nulla pretium orci.
-                        Mauris rutrum mauris tellus, et varius augue finibus ac. Aliquam ipsum tortor, viverra
-                        quis posuere iaculis, fermentum quis quam.
-                    </Typography>
+                     alignSelf="center"
+                     flexDirection="column"
+                     gap={5}
+                     pl={10}>
+                    <Box>
+                        <Typography variant="h5"
+                                    sx={{
+                                        color: '#1976d2',
+                                        fontFamily: "MyItimFont, arial, sans-serif",
+                                    }}>
+                            How it works
+                        </Typography>
+                    </Box>
+                    <Box>
+                        <Typography variant="caption">
+                            Morbi porttitor mi sit amet risus lobortis dignissim mollis at nisl.
+                            Quisque vel volutpat felis. Fusce finibus malesuada mi, id aliquam diam
+                            malesuada sodales. Donec ac velit et libero rhoncus fringilla eget aliquet tortor.
+                            Donec vehicula nisl nunc, in bibendum arcu fermentum in. Vivamus porttitor cursus quam,
+                            ac fringilla nisi ultricies quis. Aenean et felis mollis, commodo lorem vel, efficitur enim.
+                            Donec posuere nibh nisl, sit amet consequat mauris iaculis id. Morbi non ultricies lacus.
+                            In ultrices pharetra libero, eu lacinia ex. Morbi sodales lorem eu enim volutpat dapibus.
+                            Suspendisse rhoncus, ipsum suscipit accumsan ultricies, orci metus sagittis velit, eu
+                            interdum metus urna in nunc. Nunc eu accumsan justo. Phasellus pellentesque, erat vitae
+                            ornare pulvinar, ante ipsum pellentesque orci, et lobortis enim nulla pretium orci.
+                            Mauris rutrum mauris tellus, et varius augue finibus ac. Aliquam ipsum tortor, viverra
+                            quis posuere iaculis, fermentum quis quam.
+                        </Typography>
+                    </Box>
+                    <Box display="flex" flexDirection="column">
+                        <Typography sx={{
+                            fontFamily: "MyItimFont, arial, sans-serif",
+                        }}>
+                            Developer: Shane Creedon <br/>
+                            Email: shane.creedon3@mail.dcu.ie <br/>
+                            Github: XXX <br/>
+                            Project Name: process.env.REACT_APP_NAME <br/>
+                            Version: process.env.REACT_APP_VERSION <br/>
+                        </Typography>
+                    </Box>
                 </Box>
+
+                {/* Middle Column */}
                 <Box display="flex"
                      justifyContent="center">
                     <Divider orientation={"vertical"}
@@ -95,11 +116,24 @@ export const JobCreationPage = (): JSX.Element => {
                                  borderWidth: '1px'
                              }}/>
                 </Box>
+
+                {/* Right Column */}
                 <Box display="flex"
                      justifyContent="center"
                      flexDirection="column"
                      gap={3}
                      alignSelf="center">
+                    <Box>
+                        <Typography variant="h5"
+                                    pb={5}
+                                    sx={{
+                                        color: '#1976d2',
+                                        fontFamily: "MyItimFont, arial, sans-serif",
+                                    }}>
+                            Start a Subreddit Analysis
+                        </Typography>
+                    </Box>
+
                     <Box>
                         <TextField label="Subreddit Name"
                                    color="primary"
