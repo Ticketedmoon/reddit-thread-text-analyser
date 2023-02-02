@@ -11,38 +11,39 @@ import {JobCreationPage} from "./components/pages/JobCreationPage";
 
 import "./index.css";
 
-// TODO More work needed here, add fallback routes
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <NavigationBar/>,
+        errorElement: <ErrorPage/>,
         children: [
             {
-                path: "/",
-                element: (<JobCreationPage/>),
-                errorElement: <ErrorPage/>,
-                loader: async () => {
-                    let res: AxiosResponse = await axios.get("/api/job-reports/results", {})
-                    return res.data;
-                }
-            },
-            {
-                path: "/results",
-                element: (<JobListingPage/>),
-                errorElement: <ErrorPage/>,
-                loader: async () => {
-                    let res: AxiosResponse = await axios.get("/api/job-reports/results", {})
-                    return res.data;
-                }
-            },
-            {
-                path: "/results/:jobId",
-                element: (<JobResultViewPage/>),
-                errorElement: <ErrorPage/>,
-                loader: async ({params}) => {
-                    let res: AxiosResponse = await axios.get(`/api/job-reports/results/${params.jobId}`, {})
-                    return res.data;
-                }
+                element: <NavigationBar/>,
+                children: [
+                    {
+                        path: "/",
+                        element: (<JobCreationPage/>),
+                        loader: async () => {
+                            let res: AxiosResponse = await axios.get("/api/job-reports/results", {})
+                            return res.data;
+                        }
+                    },
+                    {
+                        path: "/results",
+                        element: (<JobListingPage/>),
+                        loader: async () => {
+                            let res: AxiosResponse = await axios.get("/api/job-reports/results", {})
+                            return res.data;
+                        }
+                    },
+                    {
+                        path: "/results/:jobId",
+                        element: (<JobResultViewPage/>),
+                        loader: async ({params}) => {
+                            let res: AxiosResponse = await axios.get(`/api/job-reports/results/${params.jobId}`, {})
+                            return res.data;
+                        }
+                    }
+                ]
             }
         ]
     }

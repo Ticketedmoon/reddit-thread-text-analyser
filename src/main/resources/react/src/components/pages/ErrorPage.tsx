@@ -8,7 +8,8 @@ export const ErrorPage = (): JSX.Element => {
 
     return (
         <Box display="flex"
-             justifyContent="center">
+             justifyContent="center"
+             pt={10}>
             {isRouteErrorResponse(error) ? (
                 <Box display="flex" flexDirection="column" alignItems="center" gap={3}>
                     <Typography variant="h2">Oops!</Typography>
