@@ -1,7 +1,8 @@
 import React, {ChangeEvent, useState} from "react";
-import {Box, Button, Divider, Slider, TextField, Typography} from "@mui/material";
+import {Alert, Box, Button, Divider, Slider, Snackbar, TextField, Typography} from "@mui/material";
 import UploadIcon from '@mui/icons-material/Upload';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const marks = [
     {
@@ -24,12 +25,14 @@ const marks = [
 
 export const JobCreationPage = (): JSX.Element => {
 
+    const navigate = useNavigate();
+
     const [subRedditName, setRedditName] = useState<string>("");
     const [totalPostsToScanForSubReddit, setTotalPostsToScanForSubReddit] = useState<number>(25);
     const [isFormError, setFormError] = useState<boolean>(false);
+    const [isSnackbarOpen, setSnackbarOpen] = useState<boolean>(false);
 
     const startJob = () => {
-        console.log(subRedditName)
         if (subRedditName.length === 0) {
             setFormError(true);
         } else {
@@ -41,8 +44,8 @@ export const JobCreationPage = (): JSX.Element => {
             }).then(() => {
                 // Snackbar displaying job successfully started
                 // Redirect to Job Results page
-                // Loading icon for jobs in-progress
-                console.log("success");
+                openSnackbar();
+                setTimeout(() => navigate("/results"), 3000);
             }).catch((e) => {
                 // TODO Replace with Snackbar
                 console.log("error: ", e)
@@ -55,15 +58,38 @@ export const JobCreationPage = (): JSX.Element => {
         setTotalPostsToScanForSubReddit(totalPostsToScanForSubReddit);
     }
 
-    function handleSubRedditNameChange(e: ChangeEvent<HTMLInputElement>) {
+    const handleSubRedditNameChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (isFormError) {
             setFormError(false);
         }
         setRedditName(e.target.value);
     }
 
+    const openSnackbar = () => {
+        setSnackbarOpen(true);
+    }
+
+    const handleSnackBarClose = () => {
+        setSnackbarOpen(false);
+    }
+
     return (
         <Box>
+            <Snackbar
+                anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                }}
+                autoHideDuration={3000}
+                open={isSnackbarOpen}
+                onClose={handleSnackBarClose}
+                key={"top-right-snackbar"}>
+                <Alert onClose={handleSnackBarClose}
+                       severity="success">
+                    Success! Redirecting to analysis list...
+                </Alert>
+            </Snackbar>
+
             <Box display="grid"
                  gridTemplateColumns="3fr 0.5fr 3fr"
                  alignItems="center"
@@ -174,7 +200,7 @@ export const JobCreationPage = (): JSX.Element => {
                             <Button variant="contained"
                                     onClick={startJob}
                                     endIcon={<UploadIcon/>}>
-                                Start Analysis Job
+                                Start Analysis
                             </Button>
                         </Box>
                     </Box>
