@@ -26,11 +26,12 @@ export const JobCreationPage = (): JSX.Element => {
 
     const [subRedditName, setRedditName] = useState<string | null>(null);
     const [totalPostsToScanForSubReddit, setTotalPostsToScanForSubReddit] = useState<number>(25);
+    const [isFormError, setFormError] = useState<boolean>(false);
 
     const startJob = () => {
+        console.log(subRedditName)
         if (subRedditName === null) {
-            console.error("Failed to provide subreddit name, please enter a value");
-            // TODO Snackbar instead of ^
+            setFormError(true);
         }
         axios.post("/api/job-reports", {}, {
             params: {
@@ -54,12 +55,18 @@ export const JobCreationPage = (): JSX.Element => {
     }
 
     function handleSubRedditNameChange(e: ChangeEvent<HTMLInputElement>) {
+        if (isFormError) {
+            setFormError(false);
+        }
         setRedditName(e.target.value);
     }
 
     return (
         <Box>
-            <Box display="grid" gridTemplateColumns="3fr 0.5fr 3fr" gridAutoRows="auto" mt={3}>
+            <Box display="grid"
+                 gridTemplateColumns="3fr 0.5fr 3fr"
+                 alignItems="center"
+                 mt={3}>
 
                 {/* Left Column */}
                 <Box display="flex"
@@ -118,52 +125,57 @@ export const JobCreationPage = (): JSX.Element => {
                 </Box>
 
                 {/* Right Column */}
-                <Box display="flex"
-                     justifyContent="center"
-                     flexDirection="column"
-                     gap={3}
-                     alignSelf="center">
-                    <Box>
-                        <Typography variant="h5"
-                                    pb={5}
-                                    sx={{
-                                        color: '#1976d2',
-                                        fontFamily: "MyItimFont, arial, sans-serif",
-                                    }}>
-                            Start a Subreddit Analysis
-                        </Typography>
-                    </Box>
-
-                    <Box>
-                        <TextField label="Subreddit Name"
-                                   color="primary"
-                                   focused
-                                   onChange={handleSubRedditNameChange}
-                                   sx={{
-                                       width: 300
-                                   }}/>
-                    </Box>
-                    <Box sx={{width: 400}}>
-                        <Typography id="non-linear-slider" gutterBottom>
-                            Choose how many top Reddit posts to scan
-                        </Typography>
-                        <Slider
-                            aria-label="Always visible"
-                            defaultValue={25}
-                            min={25}
-                            max={100}
-                            onChange={handleTotalPostsToScanSliderChange}
-                            step={1}
-                            marks={marks}
-                            valueLabelDisplay="auto"
-                        />
-                    </Box>
-                    <Box>
-                        <Button variant="contained"
-                                endIcon={<UploadIcon/>}
-                                onClick={() => startJob()}>
-                            Start Analysis Job
-                        </Button>
+                <Box component="form"
+                     onSubmit={() => startJob()}>
+                    <Box display="flex"
+                         justifyContent="center"
+                         flexDirection="column"
+                         gap={5}
+                         alignSelf="center">
+                        <Box>
+                            <Typography variant="h5"
+                                        sx={{
+                                            color: '#1976d2',
+                                            fontFamily: "MyItimFont, arial, sans-serif",
+                                        }}>
+                                Start a Subreddit Analysis
+                            </Typography>
+                        </Box>
+                        <Box>
+                            <TextField label="Subreddit Name"
+                                       color="primary"
+                                       focused
+                                       error={isFormError}
+                                       autoFocus
+                                       helperText={isFormError ? "Subreddit name required" : ""}
+                                       onInput={handleSubRedditNameChange}
+                                       sx={{
+                                           width: 300
+                                       }}/>
+                        </Box>
+                        <Box display="flex"
+                             flexDirection="column"
+                             sx={{width: 400}}>
+                            <Typography id="non-linear-slider" gutterBottom>
+                                Choose how many top Reddit posts to scan
+                            </Typography>
+                            <Slider
+                                aria-label="Always visible"
+                                defaultValue={25}
+                                min={25}
+                                max={100}
+                                onChange={handleTotalPostsToScanSliderChange}
+                                step={1}
+                                marks={marks}
+                                valueLabelDisplay="auto"
+                            />
+                        </Box>
+                        <Box>
+                            <Button variant="contained"
+                                    endIcon={<UploadIcon/>}>
+                                Start Analysis Job
+                            </Button>
+                        </Box>
                     </Box>
                 </Box>
             </Box>
