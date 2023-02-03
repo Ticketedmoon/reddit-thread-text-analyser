@@ -24,29 +24,30 @@ const marks = [
 
 export const JobCreationPage = (): JSX.Element => {
 
-    const [subRedditName, setRedditName] = useState<string | null>(null);
+    const [subRedditName, setRedditName] = useState<string>("");
     const [totalPostsToScanForSubReddit, setTotalPostsToScanForSubReddit] = useState<number>(25);
     const [isFormError, setFormError] = useState<boolean>(false);
 
     const startJob = () => {
         console.log(subRedditName)
-        if (subRedditName === null) {
+        if (subRedditName.length === 0) {
             setFormError(true);
+        } else {
+            axios.post("/api/job-reports", {}, {
+                params: {
+                    "subreddit": subRedditName,
+                    "totalPosts": totalPostsToScanForSubReddit
+                }
+            }).then(() => {
+                // Snackbar displaying job successfully started
+                // Redirect to Job Results page
+                // Loading icon for jobs in-progress
+                console.log("success");
+            }).catch((e) => {
+                // TODO Replace with Snackbar
+                console.log("error: ", e)
+            })
         }
-        axios.post("/api/job-reports", {}, {
-            params: {
-                "subreddit": subRedditName,
-                "totalPosts": totalPostsToScanForSubReddit
-            }
-        }).then(() => {
-            // Snackbar displaying job successfully started
-            // Redirect to Job Results page
-            // Loading icon for jobs in-progress
-            console.log("success");
-        }).catch((e) => {
-            // TODO Replace with Snackbar
-            console.log("error: ", e)
-        })
     }
 
     const handleTotalPostsToScanSliderChange = (_: Event, value: number) => {
@@ -125,8 +126,7 @@ export const JobCreationPage = (): JSX.Element => {
                 </Box>
 
                 {/* Right Column */}
-                <Box component="form"
-                     onSubmit={() => startJob()}>
+                <Box component="form">
                     <Box display="flex"
                          justifyContent="center"
                          flexDirection="column"
@@ -172,6 +172,7 @@ export const JobCreationPage = (): JSX.Element => {
                         </Box>
                         <Box>
                             <Button variant="contained"
+                                    onClick={startJob}
                                     endIcon={<UploadIcon/>}>
                                 Start Analysis Job
                             </Button>
