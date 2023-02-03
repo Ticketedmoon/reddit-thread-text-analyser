@@ -11,6 +11,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
+import com.skybreak.rcwa.infrastructure.persistence.dao.JobExecutionMetadata;
 import com.skybreak.rcwa.infrastructure.persistence.dao.UserThreadTextItem;
 import lombok.extern.slf4j.Slf4j;
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
@@ -52,9 +53,16 @@ public class DynamoDbConfig {
     }
 
     private void init(DynamoDBMapper dynamoDBMapper, AmazonDynamoDB client) {
-        CreateTableRequest tableRequest = dynamoDBMapper.generateCreateTableRequest(UserThreadTextItem.class);
+        createTableIfNotExists(dynamoDBMapper, client, UserThreadTextItem.class);
+        createTableIfNotExists(dynamoDBMapper, client, JobExecutionMetadata.class);
+    }
+
+    private void createTableIfNotExists(DynamoDBMapper dynamoDBMapper, AmazonDynamoDB client, Class<?> dynamoRepositoryClass) {
+        CreateTableRequest tableRequest = dynamoDBMapper.generateCreateTableRequest(dynamoRepositoryClass);
         tableRequest.setProvisionedThroughput(new ProvisionedThroughput(1L, 1L));
-        TableUtils.createTableIfNotExists(client, tableRequest);
-        log.info("Table for DAO [{}] has been deleted", UserThreadTextItem.class.getName());
+        boolean isTableCreated = TableUtils.createTableIfNotExists(client, tableRequest);
+        if (isTableCreated) {
+            log.info("Table for DAO [{}] has been created", dynamoRepositoryClass.getName());
+        }
     }
 }

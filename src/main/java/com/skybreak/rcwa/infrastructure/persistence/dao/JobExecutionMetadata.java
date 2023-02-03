@@ -22,7 +22,7 @@ import java.util.UUID;
 @Builder
 @Getter
 @Setter
-@DynamoDBTable(tableName = "job_summary_info")
+@DynamoDBTable(tableName = "job_execution_metadata")
 public class JobExecutionMetadata {
 
     @DynamoDBHashKey

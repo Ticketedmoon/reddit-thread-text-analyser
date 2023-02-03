@@ -64,7 +64,7 @@ aws dynamodb delete-table --table-name {TABLE_NAME} --endpoint-url http://localh
 Delete table item with Dynamodb CLI (local):
 ```
 aws dynamodb delete-item \ 
---table-name job_summary_info \
+--table-name {TABLE_NAME} \
 --key '{ "A": {"B": "C"} }' \
 --return-values ALL_OLD \
 --return-consumed-capacity TOTAL \
