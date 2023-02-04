@@ -37,14 +37,12 @@ export const NavigationBar = (): JSX.Element => {
                      flex={50}
                      justifyContent="center"
                      alignItems="center"
-                     sx={page == PageState.JOB_CREATION_PAGE ? {
-                         backgroundColor: '#1976d2'
-                     } : {
+                     sx={{
+                         backgroundColor: '#1976d2',
                          ':hover': {
-                             backgroundColor: '#1976d2',
+                             backgroundColor: '#00000091',
                              cursor: 'pointer'
-                         },
-                         backgroundColor: '#00000091'
+                         }
                      }}
                      onClick={() => handleTabChange(PageState.JOB_CREATION_PAGE, "/")}>
                     <Typography variant="subtitle1" sx={{
@@ -59,14 +57,12 @@ export const NavigationBar = (): JSX.Element => {
                      flex={50}
                      justifyContent="center"
                      alignItems="center"
-                     sx={page == PageState.COMPLETED_JOBS_PAGE ? {
-                         backgroundColor: '#1976d2'
-                     } : {
+                     sx={{
+                         backgroundColor: '#1976d2',
                          ':hover': {
-                             backgroundColor: '#1976d2',
+                             backgroundColor: '#00000091',
                              cursor: 'pointer'
-                         },
-                         backgroundColor: '#00000091'
+                         }
                      }}
                     onClick={() => handleTabChange(PageState.COMPLETED_JOBS_PAGE, "/results")}>
                     <Typography variant="subtitle1" sx={{

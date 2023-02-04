@@ -34,11 +34,11 @@ export const JobListingPage: React.FC = () => {
 
     useEffect(() => {
         const interval = setInterval(async () => {
-            let res: AxiosResponse = await axios.get("/api/job-reports/results", {})
+            let res: AxiosResponse = await axios.get("/api/job-reports/metadata", {})
             setJobMetadataList(res.data)
         }, FIFTEEN_SECONDS_IN_MS);
 
-        axios.get("/api/job-reports/results", {})
+        axios.get("/api/job-reports/metadata", {})
             .then((res) => {
                 setJobMetadataList(res.data)
             })

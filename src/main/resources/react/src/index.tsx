@@ -21,11 +21,7 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: "/",
-                        element: (<JobCreationPage/>),
-                        loader: async () => {
-                            let res: AxiosResponse = await axios.get("/api/job-reports/results", {})
-                            return res.data;
-                        }
+                        element: (<JobCreationPage/>)
                     },
                     {
                         path: "/results",
