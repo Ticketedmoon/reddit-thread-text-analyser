@@ -23,7 +23,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Validated
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/job-reports")
 @RequiredArgsConstructor
 @Slf4j
 public class JobManagementController {
@@ -32,7 +32,7 @@ public class JobManagementController {
     private static final String TOTAL_POSTS_VALIDATION_EXCEPTION_MESSAGE = "parameter `totalPosts` must be less than or equal to 100";
     private final JobManagementService jobManagementService;
 
-    @PostMapping("/job-reports")
+    @PostMapping
     public ResponseEntity<JobCreated> startReport(@RequestParam String subreddit,
                                                   @RequestParam(defaultValue = "25")
                                                   @Max(value = 100, message = TOTAL_POSTS_VALIDATION_EXCEPTION_MESSAGE) int totalPosts) {
@@ -53,13 +53,13 @@ public class JobManagementController {
         );
     }
 
-    @GetMapping("/job-reports/results")
+    @GetMapping("/metadata")
     public ResponseEntity<List<JobExecutionMetadata>> getJobs() {
         List<JobExecutionMetadata> jobResultSummaryList = jobManagementService.getResultSummariesForAllJobs();
         return ResponseEntity.ok(jobResultSummaryList);
     }
 
-    @GetMapping("/job-reports/results/{jobId}")
+    @GetMapping("/results/{jobId}")
     public ResponseEntity<JobResultSummary> getJobById(@PathVariable UUID jobId) {
         JobResultSummary resultSummaryForJob = jobManagementService.getResultsForJob(jobId);
         return ResponseEntity.ok(resultSummaryForJob);

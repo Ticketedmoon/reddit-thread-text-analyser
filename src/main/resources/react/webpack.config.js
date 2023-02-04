@@ -51,5 +51,10 @@ module.exports = {
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
-    },
+        /* TODO Can this be removed?
+        fallback: {
+            "timers": false
+        }
+        */
+    }
 };

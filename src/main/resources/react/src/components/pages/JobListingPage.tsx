@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {JobMetadata} from "../types/JobMetadata";
 import {Box, Button, CircularProgress} from "@mui/material";
 import TableContainer from "@mui/material/TableContainer";
@@ -8,9 +8,10 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import {Link, useLoaderData} from "react-router-dom";
+import {Link} from "react-router-dom";
 import CheckIcon from '@mui/icons-material/Check';
 import green from "@mui/material/colors/green";
+import axios, {AxiosResponse} from "axios";
 
 // Consider bgcolor: '#1976d2',
 const columnHeaderSx = {
@@ -25,9 +26,25 @@ const columnHeaderSx = {
      */
 };
 
+const FIFTEEN_SECONDS_IN_MS: number = 15000;
+
 export const JobListingPage: React.FC = () => {
 
-    const jobs: JobMetadata[] = useLoaderData() as JobMetadata[];
+    const [jobMetadataList, setJobMetadataList] = useState<JobMetadata[]>([]);
+
+    useEffect(() => {
+        const interval = setInterval(async () => {
+            let res: AxiosResponse = await axios.get("/api/job-reports/results", {})
+            setJobMetadataList(res.data)
+        }, FIFTEEN_SECONDS_IN_MS);
+
+        axios.get("/api/job-reports/results", {})
+            .then((res) => {
+                setJobMetadataList(res.data)
+            })
+
+        return () => clearInterval(interval);
+    }, [])
 
     return (
         <Box>
@@ -45,7 +62,7 @@ export const JobListingPage: React.FC = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {jobs.map((jobMetadata, index) => (
+                            {jobMetadataList.map((jobMetadata, index) => (
                                 <TableRow key={jobMetadata.id + "-" + index}
                                           sx={{'&:last-child td, &:last-child th': {border: 0}}}>
                                     <TableCell component="th" scope="row">{jobMetadata.id}</TableCell>

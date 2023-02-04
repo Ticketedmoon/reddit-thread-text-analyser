@@ -29,11 +29,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "/results",
-                        element: (<JobListingPage/>),
-                        loader: async () => {
-                            let res: AxiosResponse = await axios.get("/api/job-reports/results", {})
-                            return res.data;
-                        }
+                        element: (<JobListingPage/>)
                     },
                     {
                         path: "/results/:jobId",
