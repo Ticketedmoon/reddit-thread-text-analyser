@@ -12,6 +12,7 @@ import {Link} from "react-router-dom";
 import CheckIcon from '@mui/icons-material/Check';
 import green from "@mui/material/colors/green";
 import axios, {AxiosResponse} from "axios";
+import {ArrowCircleRight} from "@mui/icons-material";
 
 // Consider bgcolor: '#1976d2',
 const columnHeaderSx = {
@@ -74,9 +75,14 @@ export const JobListingPage: React.FC = () => {
                                     {/* TODO Apply nicer design for button */}
                                     <TableCell align="center">
                                         {jobMetadata.jobFinishTime ? (
-                                            <Link to={`/results/${jobMetadata.id}`}>
+                                            <Link to={`/results/${jobMetadata.id}`}
+                                                  style={{ textDecoration: 'none' }}>
                                                 <Button variant="contained"
-                                                        color="success">
+                                                        color="success"
+                                                        sx={{
+                                                            fontFamily: "MyItimFont, arial, sans-serif",
+                                                        }}
+                                                        endIcon={<ArrowCircleRight/>}>
                                                     View Results
                                                 </Button>
                                             </Link>
