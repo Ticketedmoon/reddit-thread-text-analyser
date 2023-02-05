@@ -54,7 +54,7 @@ export const JobListingPage: React.FC = () => {
                     <Table sx={{minWidth: 650}} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell sx={columnHeaderSx}> Job ID</TableCell>
+                                <TableCell sx={columnHeaderSx}>Job ID</TableCell>
                                 <TableCell sx={columnHeaderSx} align="right">Subreddit</TableCell>
                                 <TableCell sx={columnHeaderSx} align="right">Start Time</TableCell>
                                 <TableCell sx={columnHeaderSx} align="right">Completion Time</TableCell>
