@@ -1,9 +1,24 @@
 ## RTTA - Reddit Thread Text Analyser
 
 ### Description
-Track the most common words in particular Subreddits.
- - Initially start with the ability to hook into 1 subreddit.
- - Analyse all posts and comments from today back to a particular time period.
+This application enables to ability to scan any subreddit of your choosing by means of counting the words used in Subreddit Posts, Comments and replies. This can be interesting to observe the most common words used by different subreddit communities and how the lingo for these communities changes over time. 
+To start your own analysis, simply input a subreddit name into the input box and select the total amount of posts to analyse - maximum `100`. **Prepositions, Stop-words** and **links** will automatically be removed.
+
+To view your jobs select the `Completed Jobs` navbar item however you will be redirected here automatically on submission of a new analysis.
+
+#### Job Creation
+![rtta_0](https://user-images.githubusercontent.com/21260839/216834186-67728efc-dcc6-4f68-a5de-58cdf3db96d2.png)
+
+#### Completed Jobs
+![rtta_1](https://user-images.githubusercontent.com/21260839/216834184-3516a6b7-d2b3-452f-be53-b15b22dd787e.png)
+
+#### Job Result View (Overall)
+![rtta_2](https://user-images.githubusercontent.com/21260839/216834182-95d9f194-e214-496a-86fd-0fe850e591d4.png)
+
+#### Job Result View (Posts, Comments, Replies)
+![rtta_3](https://user-images.githubusercontent.com/21260839/216834179-b0debf38-3ca5-4031-a106-8cebd67c962f.png)
+
+---
 
 ### Tech
 - Rabbit or some other queue tech ✅
