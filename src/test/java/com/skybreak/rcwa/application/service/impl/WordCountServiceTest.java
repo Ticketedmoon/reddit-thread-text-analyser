@@ -50,7 +50,7 @@ class WordCountServiceTest extends AbstractTestContainer {
     void getWordToCountMapForTextPayload_whenPayloadHasHyperlink_shouldClean() {
         String testPayload =
             """
-            Reddit hyperlink contained: https://www.reddit-community-word-analyser.test.com/verify/1/test
+            Reddit hyperlink contained: https://www.reddit-thread-text-analyser.test.com/verify/1/test
             """;
         Map<String, Integer> wordsToCount = target.getWordToCountMapForTextPayload(testPayload);
 

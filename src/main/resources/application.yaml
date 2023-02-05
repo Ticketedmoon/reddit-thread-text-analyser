@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: reddit-community-word-analyser
+    name: reddit-thread-text-analyser
   banner:
     location: "classpath:/other/banner.txt"
 

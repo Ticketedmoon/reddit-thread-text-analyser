@@ -1,7 +1,7 @@
 {
-  "name": "reddit-community-word-analyser",
+  "name": "reddit-thread-text-analyser",
   "version": "1.0.0",
-  "description": "https://github.com/Ticketedmoon/reddit-community-word-analyser",
+  "description": "https://github.com/Ticketedmoon/reddit-thread-text-analyser",
   "main": "index.tsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

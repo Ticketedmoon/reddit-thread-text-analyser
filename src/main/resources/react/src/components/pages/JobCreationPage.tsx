@@ -112,30 +112,32 @@ export const JobCreationPage = (): JSX.Element => {
                         </Typography>
                     </Box>
                     <Box>
-                        <Typography variant="caption">
-                            Morbi porttitor mi sit amet risus lobortis dignissim mollis at nisl.
-                            Quisque vel volutpat felis. Fusce finibus malesuada mi, id aliquam diam
-                            malesuada sodales. Donec ac velit et libero rhoncus fringilla eget aliquet tortor.
-                            Donec vehicula nisl nunc, in bibendum arcu fermentum in. Vivamus porttitor cursus quam,
-                            ac fringilla nisi ultricies quis. Aenean et felis mollis, commodo lorem vel, efficitur enim.
-                            Donec posuere nibh nisl, sit amet consequat mauris iaculis id. Morbi non ultricies lacus.
-                            In ultrices pharetra libero, eu lacinia ex. Morbi sodales lorem eu enim volutpat dapibus.
-                            Suspendisse rhoncus, ipsum suscipit accumsan ultricies, orci metus sagittis velit, eu
-                            interdum metus urna in nunc. Nunc eu accumsan justo. Phasellus pellentesque, erat vitae
-                            ornare pulvinar, ante ipsum pellentesque orci, et lobortis enim nulla pretium orci.
-                            Mauris rutrum mauris tellus, et varius augue finibus ac. Aliquam ipsum tortor, viverra
-                            quis posuere iaculis, fermentum quis quam.
+                        <Typography
+                            sx={{
+                                lineHeight: '24px'
+                            }}
+                            variant="caption">
+                            This application enables to ability to scan any subreddit of your choosing by means of
+                            counting the words used in Subreddit Posts, Comments and replies.
+                            This can be interesting to observe the most common words used by different subreddit
+                            communities and how the lingo for these communities changes over time.
+                            To start your own analysis, simply input a subreddit name into the input box and
+                            select the total amount of posts to analyse - maximum 100. Prepositions, Stop-words and links
+                            will automatically be removed. <br/>
+                            To view your jobs select the `Completed Jobs` navbar item however you will be redirected
+                            here automatically on submission of a new analysis.
                         </Typography>
                     </Box>
                     <Box display="flex" flexDirection="column">
                         <Typography sx={{
                             fontFamily: "MyItimFont, arial, sans-serif",
+                            lineHeight: '32px'
                         }}>
-                            Developer: Shane Creedon <br/>
-                            Email: shane.creedon3@mail.dcu.ie <br/>
-                            Github: XXX <br/>
-                            Project Name: process.env.REACT_APP_NAME <br/>
-                            Version: process.env.REACT_APP_VERSION <br/>
+                            Developer: <span style={{color: '#1976d2'}}> Shane Creedon </span> <br/>
+                            Email: <span style={{color: '#1976d2'}}> shane.creedon3@mail.dcu.ie </span> <br/>
+                            Github: <span style={{color: '#1976d2'}}> https://github.com/Ticketedmoon </span> <br/>
+                            Project Name: <span style={{color: '#1976d2'}}> Reddit Thread Text Analyser </span> <br/>
+                            Version: <span style={{color: '#1976d2'}}> 1.0.0 </span> <br/>
                         </Typography>
                     </Box>
                 </Box>
