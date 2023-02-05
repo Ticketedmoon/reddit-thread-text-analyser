@@ -1,4 +1,4 @@
-## RCWA - Reddit Community Word Analyser
+## RTTA - Reddit Thread Text Analyser
 
 ### Description
 Track the most common words in particular Subreddits.
